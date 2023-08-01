@@ -1,4 +1,5 @@
-# MARL4PowerScheduling
+# MARL4PS
+
 Multi-Agent Reinforcement Learning Simulation Environment for Power Scheduling
 
 This environment is used to simulate mono- to tri-objective power scheduling problems dynamics in the form of Markov Decision Processes (MDPs).
