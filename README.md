@@ -9,7 +9,7 @@ The scheduling horizon is an hourly divided day, each hour of a day is considere
 - **Transition Function** $\cal P(s_t' |s_t,a_t)$: Once the agents take actions $\cal a_t\in A$ in $\cal s_t\in S$, the transition (or probability) function $\cal P(s_t' |s_t,a_t)$ determines whether to advance to the next succeeding state $\cal s_t'=s_{t+1}$ or re-initialize the next state $\cal s_t'=s_{0}$.
   - The illegal decisions of the agents are corrected by the environment.
   - The environment adjusts for both excess and shortages of power supplies.
-- **Reward function** $\cal R$: The agents get a common reward based on a predefined reinforcement function  $\cal R(s_t,a_t,s_t')$ based on the action $\cal a_t\in A$ in state $\cal s_t\in S$.
+- **Reward function** $\cal R$: The agents get a common reward based on a predefined reinforcement function $\cal R(s_t,a_t,s_t')$ based on the action $\cal a_t\in A$ in state $\cal s_t\in S$.
 
 The MOPS dynamics can be formally formulated as a 4-tuple $\cal (S,A,P,R)$ Markov Decision Process (MDP), which can then be used to train a custom deep learning model.The practical viability of the environment is evaluated on different test systems featuring mono- to tri-objective problems.
 #####
@@ -17,7 +17,7 @@ The MOPS dynamics can be formally formulated as a 4-tuple $\cal (S,A,P,R)$ Marko
 The simulation environment can be installed by running:
 
     ```
-    git clone https://github.com/pwdemars/rl4uc.git
+    git clone https://github.com/??.git
     cd rl4uc
     pip install .
     ```
