@@ -8,7 +8,7 @@ where $f^c(p_{it})=\alpha_i^cp_{it}^2+\beta^cp_{it}+\delta+|\rho^csin[\varphi^c_
 Emission function: $$\cal E_{it}=z_{it}f^e(p_{it})+z_{it}(1-z_{i,t-1})s_{it}^{ON,e}+(1-z_{it})z_{i,t-1}s_{it}^{OFF,e}$$
 where $f^e(p_{it})=\alpha_i^ep_{it}^2+\beta^ep_{it}+\delta+\rho^eexp(\varphi^e_ip_{it})$
 The MOPS problem:
-$$\Phi(C,E)=\sum\limits_{t=1}^{24}\sum\limits_{i=1}^n[\omega_0C_{it}+\sum\limits_{h=1}^m\omega_h\eta_{ih}\varepsilon_{it}^{(h)}]$$
+$$\cal \Phi(C,E)=\sum\limits_{t=1}^{24}\sum\limits_{i=1}^n[\omega_0C_{it}+\sum\limits_{h=1}^m\omega_h\eta_{ih}E_{it}^{(h)}]$$
 
 Within the framework of MARL, the generating units are represented as multi-RL agents, each with different unit-specific characteristics and multiple conflicting objectives. The framework MARL manifests the form of state $\cal S$, action  $\cal A$, transition (probability) function  $\cal P$ and reward  $\cal R$ for a sequence of discrete timesteps $t$. 
 ### The MARL Framework
