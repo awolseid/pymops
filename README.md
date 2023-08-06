@@ -16,8 +16,8 @@ subject to:
 | Constraints | Specification | 
 | --------------- | --------------- | 
 | Min and max power capacity limits:    | $z_{it}p_{i*}^{min}\le p_{it}\le z_{it}p_{i*}^{max}$ | 
-| Max ramp down and up rates:    | Row 2, Col 2    | 
-| Min operating (online/offline) durations:     | Row 1, Col 2    | 
+| Max ramp down and up rates:    | $z_{it}p_{i,t-1}-z_{it}p_{it}\le p_{i*}^{down}, z_{it}p_{it}-z_{i,t-1}p_{it}\le p_{i*}^{up}$    | 
+| Min operating (online/offline) durations:     | $\scriptt_{it}^{ON}\ge $    | 
 | Max ramp down and up rates:    | Row 2, Col 2    | 
 | Power supply and demand balance:    | Row 1, Col 2    | 
 | Min available reserve capacity:   | Row 2, Col 2    | 
