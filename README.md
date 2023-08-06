@@ -25,32 +25,33 @@ The simulation environment can be installed by running:
 
 ## Usage
 
-Below we will try an action on the 5 generator system. An action is a commitment decision for the following time period, defined by a binary numpy array: 1 indicates that we want to turn (or leave) the generator on, 0 indicates turn or leave it off. 
+Below, we will try an action on the 5 generator system. An action is a commitment decision for the following time period, defined by a binary numpy array: 1 indicates that we want to turn (or leave) the generator on, 0 indicates turn or leave it off. 
 
-### Import the package
+### Import package
 
 ```python 
 from rl4uc.environment import make_env
 import numpy as np
 ```
 
-### Create an environment, 5 generators by default.
+### Create simulation environment
 ```
 env = make_env()
 ```
-### Reset the environment to a random demand profile.
+### Reset environment
 ```
 obs_init = env.reset()
 ```
-### Define a commitment decision for the next time period.
+### Define decisions of agents
 ```
-action = np.array([1,1,0,0,0]) # Turn on generators 0 & 1, turns all others off.
+action_vec = np.array([1,1,0,0,0])
 ```
 
-### Take the action, observe the reward.
+### Execute action in the environment
 ```
 observation, reward, done = env.step(action)
 ```
+
 ```
 print("Dispatch: {}".format(env.disp))
 print("Finished? {}".format(done))
@@ -66,10 +67,10 @@ Any questions, issues, suggestions, or collaboration opportunities can be reache
 ### Acknowledgment
 
 
-## How to cite?
+## Citation
 
 Users of the repository should cite the following paper: 
-
-          Ebrie, A.S.; Paik, C.; Chung, Y.; Kim, Y.J. (2023)..energies, 16(?).
+    
+    Ebrie, A.S.; Paik, C.; Chung, Y.; Kim, Y.J. (2023)..energies, 16(?).
 
 
