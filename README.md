@@ -8,7 +8,8 @@
 
 The MOPS problem:
 $$\cal \Phi(C,E)=\sum\limits_{t=1}^{24}\sum\limits_{i=1}^n[\omega_0C_{it}+\sum\limits_{h=1}^m\omega_h\eta_{ih}E_{it}^{(h)}]$$
-where $\nabla$
+where $\eta_i = exp{\frac{\nabla f^c(p_i)/\nabla f^e(p_i)}{{max[\nabla f^c(p_i)/\nabla f^e(p_i);\forall i]-min[\nabla f^c(p_i)/\nabla f^e(p_i);\forall i]}}}\forall i$
+
 subject to:
 
 | Constraints | Specification | 
