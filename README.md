@@ -27,6 +27,8 @@ The simulation environment can be installed by running:
 
 Below we will try an action on the 5 generator system. An action is a commitment decision for the following time period, defined by a binary numpy array: 1 indicates that we want to turn (or leave) the generator on, 0 indicates turn or leave it off. 
 
+### Import the package
+
 ```python 
 from rl4uc.environment import make_env
 import numpy as np
@@ -68,16 +70,6 @@ Any questions, issues, suggestions, or collaboration opportunities can be reache
 
 Users of the repository should cite the following paper: 
 
-```
-@article{Ebrie?,
-  title={?},
-  author={Awol Seid Ebrie, Chunhyun Paik, Yongjoo Chung, and Young Jin Kim},
-  journal={energies},
-  volume={16},
-  pages={?-?},
-  year={2023},
-  publisher={MDPI}
-}
-```
+          Ebrie, A.S.; Paik, C.; Chung, Y.; Kim, Y.J. (2023)..energies, 16(?).
 
 
