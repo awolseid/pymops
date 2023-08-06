@@ -2,20 +2,18 @@
 
 ## Project Description
 ### Objective 
-Cost function: $$\cal C_{it}=z_{it}f^c(p_{it})+z_{it}(1-z_{i,t-1})s_{it}^{ON,c}+(1-z_{it})z_{i,t-1}s_{it}^{OFF,c}$$
-where $f^c(p_{it})=\alpha_i^cp_{it}^2+\beta^cp_{it}+\delta+|\rho^csin[\varphi^c_i(p_{it}^{min}+p_{it})]|$
+**Cost function**: $\cal C_{it}=z_{it}f^c(p_{it})+z_{it}(1-z_{i,t-1})s_{it}^{ON,c}+(1-z_{it})z_{i,t-1}s_{it}^{OFF,c}$ where $f^c(p_{it})=\alpha_i^cp_{it}^2+\beta^cp_{it}+\delta+|\rho^csin[\varphi^c_i(p_{it}^{min}+p_{it})]|$
 
-Emission function: $$\cal E_{it}=z_{it}f^e(p_{it})+z_{it}(1-z_{i,t-1})s_{it}^{ON,e}+(1-z_{it})z_{i,t-1}s_{it}^{OFF,e}$$
-where $f^e(p_{it})=\alpha_i^ep_{it}^2+\beta^ep_{it}+\delta+\rho^eexp(\varphi^e_ip_{it})$
+**Emission function**: $\cal E_{it}=z_{it}f^e(p_{it})+z_{it}(1-z_{i,t-1})s_{it}^{ON,e}+(1-z_{it})z_{i,t-1}s_{it}^{OFF,e}$ where $f^e(p_{it})=\alpha_i^ep_{it}^2+\beta^ep_{it}+\delta+\rho^eexp(\varphi^e_ip_{it})$
 
 The MOPS problem:
 $$\cal \Phi(C,E)=\sum\limits_{t=1}^{24}\sum\limits_{i=1}^n[\omega_0C_{it}+\sum\limits_{h=1}^m\omega_h\eta_{ih}E_{it}^{(h)}]$$
-
+where $\nabla$
 subject to:
 
 | Constraints | Specification | 
 | --------------- | --------------- | 
-| Min and max power capacity limits:    | $ cal z_{it}p_{i*}^{min}\le p_{it}\le z_{it}p_{i*}^{max}$ | 
+| Min and max power capacity limits:    | $\cal z_{it}p_{i*}^{min}\le p_{it}\le z_{it}p_{i*}^{max}$ | 
 | Max ramp down and up rates:    | $\cal z_{it}p_{i,t-1}-z_{it}p_{it}\le p_{i*}^{down}, z_{it}p_{it}-z_{i,t-1}p_{it}\le p_{i*}^{up}$    | 
 | Min operating (online/offline) durations:     | $\cal tt_{it}^{ON}\ge tt_{i*}^{OFF}, tt_{it}^{OFF}\ge tt_{i*}^{OFF}$    | 
 | Power supply and demand balance:    | $\cal \sum\limits_{i=1}^nz_{it}p_{it}=d_t$   | 
