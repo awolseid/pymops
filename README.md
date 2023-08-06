@@ -2,7 +2,8 @@
 
 ## Project Description
 ### Objective 
-Cost function: $\cal C_{it}=z_{it}f^c(p_{it})$
+Cost function: $\cal C_{it}=z_{it}f^c(p_{it})+z_{it}(1-z_{i,t-1})s_{it}^{ON,c}+(1-z_{it})z_{i,t-1}s_{it}^{OFF,c}$
+where $f^c(p_{it})=\alpha_i^cp_{it}^2+\beta^cp_{it}+\delta+|\rho^csin[\Phi^c_i(p_{it}^{min}+p_{it})]|$
 
 
 Within the framework of MARL, the generating units are represented as multi-RL agents, each with different unit-specific characteristics and multiple conflicting objectives. The framework MARL manifests the form of state $\cal S$, action  $\cal A$, transition (probability) function  $\cal P$ and reward  $\cal R$ for a sequence of discrete timesteps $t$. 
