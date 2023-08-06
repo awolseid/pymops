@@ -15,12 +15,11 @@ subject to:
 
 | Constraints | Specification | 
 | --------------- | --------------- | 
-| Min and max power capacity limits:    | $z_{it}p_{i*}^{min}\le p_{it}\le z_{it}p_{i*}^{max}$ | 
-| Max ramp down and up rates:    | $z_{it}p_{i,t-1}-z_{it}p_{it}\le p_{i*}^{down}, z_{it}p_{it}-z_{i,t-1}p_{it}\le p_{i*}^{up}$    | 
-| Min operating (online/offline) durations:     | $\script{t}_{it}^{ON}\ge $    | 
-| Max ramp down and up rates:    | Row 2, Col 2    | 
-| Power supply and demand balance:    | Row 1, Col 2    | 
-| Min available reserve capacity:   | Row 2, Col 2    | 
+| Min and max power capacity limits:    | $ cal z_{it}p_{i*}^{min}\le p_{it}\le z_{it}p_{i*}^{max}$ | 
+| Max ramp down and up rates:    | $\cal z_{it}p_{i,t-1}-z_{it}p_{it}\le p_{i*}^{down}, z_{it}p_{it}-z_{i,t-1}p_{it}\le p_{i*}^{up}$    | 
+| Min operating (online/offline) durations:     | $\cal tt_{it}^{ON}\ge tt_{i*}^{OFF}, tt_{it}^{OFF}\ge tt_{i*}^{OFF}$    | 
+| Power supply and demand balance:    | $\cal \sum\limits_{i=1}^nz_{it}p_{it}=d_t$   | 
+| Min available reserve capacity:   | $\cal \sum\limits_{i=1}^nz_{it}p_{it}^{max}\ge (1+ r) d_t$    | 
 
 Within the framework of MARL, the generating units are represented as multi-RL agents, each with different unit-specific characteristics and multiple conflicting objectives. The framework MARL manifests the form of state $\cal S$, action  $\cal A$, transition (probability) function  $\cal P$ and reward  $\cal R$ for a sequence of discrete timesteps $t$. 
 ### The MARL Framework
