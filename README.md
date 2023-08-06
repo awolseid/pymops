@@ -19,7 +19,7 @@ The simulation environment can be installed by running:
 
     ```
     git clone https://github.com/??.git
-    cd rl4uc
+    cd ?
     pip install .
     ```
 
@@ -30,7 +30,7 @@ Below, we will try an action on the 5 generator system. An action is a commitmen
 ### Import package
 
 ```python 
-from rl4uc.environment import make_env
+from ?.environment import make_env
 import numpy as np
 ```
 
