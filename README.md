@@ -1,4 +1,4 @@
-# MARLSE4MOPS: Multi-Agent Reinforcement Learning Simulation Environment for Multi-Objective Power Scheduling
+# MAMDP4PS: Multi-Agent Reinforcement Learning Simulation Environment for Multi-Objective Power Scheduling
 
 ## Project Description
 ### Objective 
