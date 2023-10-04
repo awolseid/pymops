@@ -33,64 +33,7 @@ The scheduling horizon is an hourly divided day, each hour of a day is considere
 
 The MOPS dynamics can be formally formulated as a 4-tuple $\cal (S,A,P,R)$ Markov Decision Process (MDP), which can then be used to train a custom deep learning model.The practical viability of the environment is evaluated on different test systems featuring mono- to tri-objective problems.
 
-## Installation
-
-The simulation environment can be installed by running:
-
-    ```
-    git clone https://github.com/??.git
-    cd ?
-    pip install .
-    ```
-
-## Usage
-
-Below, we will try an action on the 5 generator system. An action is a commitment decision for the following time period, defined by a binary numpy array: 1 indicates that we want to turn (or leave) the generator on, 0 indicates turn or leave it off. 
-
-### Import package
-
-```python 
-from ?.environment import make_env
-import numpy as np
-```
-
-### Create simulation environment
-```
-env = make_env()
-```
-### Reset environment
-```
-obs_init = env.reset()
-```
-### Define decisions of agents
-```
-action_vec = np.array([1,1,0,0,0])
-```
-
-### Execute action in the environment
-```
-observation, reward, done = env.step(action)
-```
-
-```
-print("Dispatch: {}".format(env.disp))
-print("Finished? {}".format(done))
-print("Reward: {:.2f}".format(reward))
-```
-
-## Documentation
-A detailed description of how to use it can be found at [jupyter notebook](notebooks/tutorial.ipynb).
-
-### Contact Information
-Any questions, issues, suggestions, or collaboration opportunities can be reached at: es.awol@gmail.com. 
-
-### Acknowledgment
 
 
-## Citation
-
-Users of the repository should cite the following paper: 
-    
-    Ebrie, A.S.; Paik, C.; Chung, Y.; Kim, Y.J. (2023)..energies, 16(?).
 
 
