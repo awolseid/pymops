@@ -1,4 +1,4 @@
-# MAMDP4PS: Multi-Agent Reinforcement Learning Simulation Environment for Multi-Objective Power Scheduling
+# PyMOOPS: Reinforcement Learning-Based Simulation Environment for Multi-Objective Optimization in Power Scheduling
 
 ## Project Description
 ### Objective 
