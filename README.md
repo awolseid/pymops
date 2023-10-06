@@ -1,6 +1,7 @@
-# PyMOOPS: Reinforcement Learning Simulation Environment for Multi-Objective Optimization in Power Scheduling
+# pymops: RL-Based Simulation Environment for Multi-Objective Optimization in Unit Commitment
 
 ## Project Description
+
 ### Objective 
 **Cost functions**: $\cal C_{it}=z_{it}f^c(p_{it})+z_{it}(1-z_{i,t-1})s_{it}^{ON,c}+(1-z_{it})z_{i,t-1}s_{it}^{OFF,c}$ where $f^c(p_{it})=\alpha_i^cp_{it}^2+\beta^cp_{it}+\delta^c+|\rho^csin[\varphi^c_i(p_{it}^{min}+p_{it})]|$
 
@@ -39,48 +40,46 @@ The MOPS dynamics can be formally formulated as a 4-tuple $\cal (S,A,P,R)​$ Ma
 The simulation environment can be installed by running:
 
     ​```
-    git clone https://github.com/??.git
-    cd ?
-    pip install .
+    git clone https://github.com/awolseid/marl4mops.git
     ​```
-
-## Usage
-
-Below, we will try an action on the 5 generator system. An action is a commitment decision for the following time period, defined by a binary numpy array: 1 indicates that we want to turn (or leave) the generator on, 0 indicates turn or leave it off. 
 
 ### Import package
 
 ```python 
-from ?.environment import make_env
-import numpy as np
+from pymops.environ import SimEnv
 ```
 
 ### Create simulation environment
 ```
-env = make_env()
+import pandas as pd
+default_supply_df = pd.read_csv('pymops/data/supply_10units.csv')
+default_demand_df = pd.read_csv('pymops/data/demand_24hours.csv')
+
+env = SimEnv(  
+            supply_df = default_supply_df, 
+            demand_df = default_demand_df, 
+            SR = 0.0,
+            RR = "Yes", 
+            VPE = None,
+            n_objs = None, 
+            w = None,
+            duplicates = None)
+
+```
+### Get current state
+```
+env.get_current_state()
 ```
 ### Reset environment
 ```
-obs_init = env.reset()
+env.reset()
 ```
-### Define decisions of agents
+### Execute agents' action
 ```
-action_vec = np.array([1,1,0,0,0])
-```
-
-### Execute action in the environment
-```
-observation, reward, done = env.step(action)
+import numpy as np
+env.step(np.array([1,1,0,1,0,0,0,0,0,0]))
 ```
 
-```
-print("Dispatch: {}".format(env.disp))
-print("Finished? {}".format(done))
-print("Reward: {:.2f}".format(reward))
-```
-
-## Documentation
-A detailed description of how to use it can be found at [jupyter notebook](notebooks/tutorial.ipynb).
 
 ### Contact Information
 Any questions, issues, suggestions, or collaboration opportunities can be reached at: es.awol@gmail.com. 
@@ -89,9 +88,4 @@ Any questions, issues, suggestions, or collaboration opportunities can be reache
 
 
 ## Citation
-
-Users of the repository should cite the following paper: 
-​    
-    Ebrie, A.S.; Paik, C.; Chung, Y.; Kim, Y.J. (2023)..energies, 16(?).
-
 
