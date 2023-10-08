@@ -183,5 +183,5 @@ Or it can be cloned from GitHub repo and installed.
           ```
 
 ### Contact Information
-Any questions, issues, suggestions, or collaboration opportunities can be reached at: es.awol@gmail.com; awolseid@pukyong.ac.kr. 
+Any questions, issues, suggestions, or collaboration opportunities can be reached at: awolseid@pukyong.ac.kr; youngk@pknu.ac.kr. 
 
