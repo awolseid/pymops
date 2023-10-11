@@ -114,14 +114,14 @@ class DQNAgents:
         shut_emis = 0
         prod_emis = 0
         total_emis = 0
-        start_CO2 = 0
-        shut_CO2 = 0
-        prod_CO2 = 0
-        total_CO2 = 0
-        start_SO2 = 0
-        shut_SO2 = 0
-        prod_SO2 = 0
-        total_SO2 = 0
+        start_emis1 = 0
+        shut_emis1 = 0
+        prod_emis1 = 0
+        total_emis1 = 0
+        start_emis2 = 0
+        shut_emis2 = 0
+        prod_emis2 = 0
+        total_emis2 = 0
 
         period = 0
         done = False
@@ -139,15 +139,15 @@ class DQNAgents:
                 prod_emis = prod_emis + info_dict["prod_emis"]
                 total_emis = total_emis + info_dict["total_emis"]
             elif test_environ.n_objs == "tri":
-                start_CO2 = start_CO2 + info_dict["start_CO2"]
-                shut_CO2 = shut_CO2 + info_dict["shut_CO2"]
-                prod_CO2 = prod_CO2 + info_dict["prod_CO2"]
-                total_CO2 = total_CO2 + info_dict["total_CO2"]
+                start_emis1 = start_emis1 + info_dict["start_emis1"]
+                shut_emis1 = shut_emis1 + info_dict["shut_emis1"]
+                prod_emis1 = prod_emis1 + info_dict["prod_emis1"]
+                total_emis1 = total_emis1 + info_dict["total_emis1"]
                 
-                start_SO2 = start_SO2 + info_dict["start_SO2"]
-                shut_SO2 = shut_SO2 + info_dict["shut_SO2"]
-                prod_SO2 = prod_SO2 + info_dict["prod_SO2"]
-                total_SO2 = total_SO2 + info_dict["total_SO2"]
+                start_emis2 = start_emis2 + info_dict["start_emis2"]
+                shut_emis2 = shut_emis2 + info_dict["shut_emis2"]
+                prod_emis2 = prod_emis2 + info_dict["prod_emis2"]
+                total_emis2 = total_emis2 + info_dict["total_emis2"]
 
             state_vec = next_state_vec
             period += 1
@@ -160,15 +160,15 @@ class DQNAgents:
                 "prod_emis": prod_emis if test_environ.n_objs == "bi" else None,  
                 "total_emis": total_emis if test_environ.n_objs == "bi" else None,
                 
-                "start_CO2": start_CO2 if test_environ.n_objs == "tri" else None, 
-                "shut_CO2": shut_CO2 if test_environ.n_objs == "tri" else None, 
-                "prod_CO2": prod_CO2 if test_environ.n_objs == "tri" else None,  
-                "total_CO2": total_CO2 if test_environ.n_objs == "tri" else None,
+                "start_emis1": start_emis1 if test_environ.n_objs == "tri" else None, 
+                "shut_emis1": shut_emis1 if test_environ.n_objs == "tri" else None, 
+                "prod_emis1": prod_emis1 if test_environ.n_objs == "tri" else None,  
+                "total_emis1": total_emis1 if test_environ.n_objs == "tri" else None,
 
-                "start_SO2": start_SO2 if test_environ.n_objs == "tri" else None, 
-                "shut_SO2": shut_SO2 if test_environ.n_objs == "tri" else None, 
-                "prod_SO2": prod_SO2 if test_environ.n_objs == "tri" else None,  
-                "total_SO2": total_SO2 if test_environ.n_objs == "tri" else None,
+                "start_emis2": start_emis2 if test_environ.n_objs == "tri" else None, 
+                "shut_emis2": shut_emis2 if test_environ.n_objs == "tri" else None, 
+                "prod_emis2": prod_emis2 if test_environ.n_objs == "tri" else None,  
+                "total_emis2": total_emis2 if test_environ.n_objs == "tri" else None,
                }
 
     def train(self, memory, test_environ = None, batch_size = None, num_episodes = 100):
@@ -187,15 +187,15 @@ class DQNAgents:
       prod_emiss = []
       total_emiss = []
     
-      start_CO2s = []
-      shut_CO2s = []
-      prod_CO2s = []
-      total_CO2s = []
+      start_emis1s = []
+      shut_emis1s = []
+      prod_emis1s = []
+      total_emis1s = []
     
-      start_SO2s = []
-      shut_SO2s = []
-      prod_SO2s = []
-      total_SO2s = []
+      start_emis2s = []
+      shut_emis2s = []
+      prod_emis2s = []
+      total_emis2s = []
 
       for episode in tqdm(range(1, num_episodes + 1)):
         mean_timestep, mean_reward = self.learn_step(memory, batch_size)
@@ -213,15 +213,15 @@ class DQNAgents:
             prod_emiss.append(results_dict["prod_emis"])
             total_emiss.append(results_dict["total_emis"])
         elif self.environ.n_objs == "tri":
-            start_CO2s.append(results_dict["start_CO2"])
-            shut_CO2s.append(results_dict["shut_CO2"])
-            prod_CO2s.append(results_dict["prod_CO2"])
-            total_CO2s.append(results_dict["total_CO2"])
+            start_emis1s.append(results_dict["start_emis1"])
+            shut_emis1s.append(results_dict["shut_emis1"])
+            prod_emis1s.append(results_dict["prod_emis1"])
+            total_emis1s.append(results_dict["total_emis1"])
 
-            start_SO2s.append(results_dict["start_SO2"])
-            shut_SO2s.append(results_dict["shut_SO2"])
-            prod_SO2s.append(results_dict["prod_SO2"])
-            total_SO2s.append(results_dict["total_SO2"])
+            start_emis2s.append(results_dict["start_emis2"])
+            shut_emis2s.append(results_dict["shut_emis2"])
+            prod_emis2s.append(results_dict["prod_emis2"])
+            total_emis2s.append(results_dict["total_emis2"])
 
         if episode % (num_episodes / 10) == 0:
 
@@ -241,8 +241,8 @@ class DQNAgents:
                       f"Eps. = {self.epsilon_max:.3f} | "
                       f"LR = {self.optimizer.param_groups[0]['lr']:.3f} | "
                       f"Cost = {results_dict['total_cost']:.1f} | "
-                      f"CO2 = {results_dict['total_CO2']:.1f} | "
-                      f"SO2 = {results_dict['total_SO2']:.1f} | "
+                      f"emis1 = {results_dict['total_emis1']:.1f} | "
+                      f"emis2 = {results_dict['total_emis2']:.1f} | "
                      )   
 
         if self.epsilon_max > self.epsilon_min: self.epsilon_max *= self.epsilon_decay
@@ -273,22 +273,22 @@ class DQNAgents:
               np.array(prod_costs).reshape(-1, 1),
               np.array(total_costs).reshape(-1, 1),
 
-              np.array(start_CO2s).reshape(-1, 1),
-              np.array(shut_CO2s).reshape(-1, 1),
-              np.array(prod_CO2s).reshape(-1, 1),
-              np.array(total_CO2s).reshape(-1, 1),
+              np.array(start_emis1s).reshape(-1, 1),
+              np.array(shut_emis1s).reshape(-1, 1),
+              np.array(prod_emis1s).reshape(-1, 1),
+              np.array(total_emis1s).reshape(-1, 1),
               
-              np.array(start_SO2s).reshape(-1, 1),
-              np.array(shut_SO2s).reshape(-1, 1),
-              np.array(prod_SO2s).reshape(-1, 1),
-              np.array(total_SO2s).reshape(-1, 1)
+              np.array(start_emis2s).reshape(-1, 1),
+              np.array(shut_emis2s).reshape(-1, 1),
+              np.array(prod_emis2s).reshape(-1, 1),
+              np.array(total_emis2s).reshape(-1, 1)
           ], axis = 1),
                                              columns=["Episode", "Timesteps", "Rewards", "Startup Cost",
                                              "Shutdown Cost", "Production Cost", "Total Cost",
-                                             "Startup CO2", "Shutup CO2", 
-                                             "Production CO2", "Total CO2",
-                                             "Startup SO2", "Shutup SO2", 
-                                             "Production SO2", "Total SO2"                                                     
+                                             "Startup emis1", "Shutup emis1", 
+                                             "Production emis1", "Total emis1",
+                                             "Startup emis2", "Shutup emis2", 
+                                             "Production emis2", "Total emis2"                                                     
                                                      ])        
     
       training_results_df[["Timesteps"]] = training_results_df[["Timesteps"]].astype(int)  

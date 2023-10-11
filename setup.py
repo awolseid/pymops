@@ -7,12 +7,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 PACKAGE_NAME = 'pymops'
 VERSION = '1.0.0'
-DESCRIPTION = 'Multi-agent reinforcement learning simulation enviornment for multi-objective optimization in power scheduling'
+DESCRIPTION = 'Multi-agent reinforcement learning simulation environment for multi-objective optimization in power scheduling'
 LONG_DESCRIPTION = long_description  
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown' 
-KEYWORDS = ['Economic Dispach', 'Power Scheduling', 'Unit Commitment'] 
+KEYWORDS = ['Economic Dispach', 'Power Scheduling', 'Reinforcement Learning','Unit Commitment'] 
 AUTHOR = 'Awol Seid Ebrie and Young Jin Kim'
-EMAILS = 'es.awol@gmail.com'
+EMAIL = 'es.awol@gmail.com'
 LICENSE = 'MIT'
 INSTALL_REQUIRES = ['numpy', 'pandas', 'scipy', 'torch', 'tqdm']
 
@@ -24,7 +24,7 @@ setup(
 	long_description_content_type = LONG_DESCRIPTION_CONTENT_TYPE,
 	keywords = KEYWORDS,
 	author = AUTHOR,
-	author_email = EMAILS,
+	author_email = EMAIL,
 	license = LICENSE,
 	packages = find_packages(),
 	install_requires = INSTALL_REQUIRES,

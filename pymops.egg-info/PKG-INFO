@@ -1,3 +1,25 @@
+Metadata-Version: 2.1
+Name: pymops
+Version: 1.0.0
+Summary: Multi-agent reinforcement learning simulation environment for multi-objective optimization in power scheduling
+Home-page: https://github.com/awolseid/pymops
+Author: Awol Seid Ebrie and Young Jin Kim
+Author-email: es.awol@gmail.com
+License: MIT
+Project-URL: Bug Tracker, https://github.com/awolseid/pymops
+Keywords: Economic Dispach,Power Scheduling,Reinforcement Learning,Unit Commitment
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scipy
+Requires-Dist: torch
+Requires-Dist: tqdm
+
 # pymops: Multi-agent reinforcement learning simulation environment for multi-objective optimization in power scheduling
 
 

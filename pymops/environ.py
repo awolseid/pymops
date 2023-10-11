@@ -101,29 +101,29 @@ class SimEnv:
         self.w_emis = self.w[1]
  
     elif self.n_objs == "tri":
-        self.aCO2_vec = self.supply_df["aCO2"].to_numpy()
-        self.bCO2_vec = self.supply_df["bCO2"].to_numpy()
-        self.cCO2_vec = self.supply_df["cCO2"].to_numpy()
+        self.aemis1_vec = self.supply_df["aEmis1"].to_numpy()
+        self.bemis1_vec = self.supply_df["bEmis1"].to_numpy()
+        self.cemis1_vec = self.supply_df["cEmis1"].to_numpy()
         if self.VPE == "yes":
-            self.dCO2_vec = self.supply_df["dCO2"].to_numpy()
-            self.eCO2_vec = self.supply_df["eCO2"].to_numpy()
-        self.start_CO2s_vec = (self.supply_df["Start_CO2"].to_numpy()
-                              if "Start_CO2" in self.supply_df.columns else np.zeros(self.n_units))
-        self.shut_CO2s_vec = (self.supply_df["Shut_CO2"].to_numpy() 
-                             if "Shut_CO2" in self.supply_df.columns else np.zeros(self.n_units))
+            self.demis1_vec = self.supply_df["dEmis1"].to_numpy()
+            self.eemis1_vec = self.supply_df["eEmis1"].to_numpy()
+        self.start_emis1s_vec = (self.supply_df["Start_Emis1"].to_numpy()
+                              if "Start_Emis1" in self.supply_df.columns else np.zeros(self.n_units))
+        self.shut_emis1s_vec = (self.supply_df["Shut_Emis1"].to_numpy() 
+                             if "Shut_Emis1" in self.supply_df.columns else np.zeros(self.n_units))
 
-        self.aSO2_vec = self.supply_df["aSO2"].to_numpy()
-        self.bSO2_vec = self.supply_df["bSO2"].to_numpy()
-        self.cSO2_vec = self.supply_df["cSO2"].to_numpy()
+        self.aemis2_vec = self.supply_df["aEmis2"].to_numpy()
+        self.bemis2_vec = self.supply_df["bEmis2"].to_numpy()
+        self.cemis2_vec = self.supply_df["cEmis2"].to_numpy()
         if self.VPE == "yes":
-            self.dSO2_vec = self.supply_df["dSO2"].to_numpy()
-            self.eSO2_vec = self.supply_df["eSO2"].to_numpy()
-        self.start_SO2s_vec = (self.supply_df["Start_SO2"].to_numpy()
-                               if "Start_SO2" in self.supply_df.columns else np.zeros(self.n_units))
-        self.shut_SO2s_vec = (self.supply_df["Shut_SO2"].to_numpy()
-                              if "Shut_SO2" in self.supply_df.columns else np.zeros(self.n_units))
-        self.w_CO2 = self.w[1]
-        self.w_SO2 = self.w[2]
+            self.demis2_vec = self.supply_df["dEmis2"].to_numpy()
+            self.eemis2_vec = self.supply_df["eEmis2"].to_numpy()
+        self.start_emis2s_vec = (self.supply_df["Start_Emis2"].to_numpy()
+                               if "Start_Emis2" in self.supply_df.columns else np.zeros(self.n_units))
+        self.shut_emis2s_vec = (self.supply_df["Shut_Emis2"].to_numpy()
+                              if "Shut_Emis2" in self.supply_df.columns else np.zeros(self.n_units))
+        self.w_emis1 = self.w[1]
+        self.w_emis2 = self.w[2]
         
     self.timestep = 0
     self.commits_vec = np.where(self.durations_vec > 0, 1, 0)
@@ -148,12 +148,12 @@ class SimEnv:
         else: 
             print(f"DUAL OBJECTIVES (Cost and Emission): w = {self.w} RR = {self.RR}, VPE = {self.VPE}, SR = {self.SR}")
     elif self.n_objs == "tri":
-        if self.w_CO2 == 1: 
-            print(f'"CO2 EMISSIONS" Optimization: RR = {self.RR}, VPE = {self.VPE}, Reserve = {self.SR}')
-        elif self.w_SO2 == 1: 
-            print(f'"SO2 EMISSIONS" Optimization: RR = {self.RR}, VPE = {self.VPE}, Reserve = {self.SR}')
+        if self.w_emis1 == 1: 
+            print(f'"emis1 EMISSIONS" Optimization: RR = {self.RR}, VPE = {self.VPE}, Reserve = {self.SR}')
+        elif self.w_emis2 == 1: 
+            print(f'"emis2 EMISSIONS" Optimization: RR = {self.RR}, VPE = {self.VPE}, Reserve = {self.SR}')
         else: 
-            print(f"TRI OBJECTIVES (Cost, CO2 and SO2): w = {self.w}, RR = {self.RR}, VPE = {self.VPE}, SR = {self.SR}")
+            print(f"TRI OBJECTIVES (Cost, emis1 and emis2): w = {self.w}, RR = {self.RR}, VPE = {self.VPE}, SR = {self.SR}")
 
                 
   def startup_costs_and_emissions_if_ON(self):  
@@ -165,8 +165,8 @@ class SimEnv:
     if self.n_objs == "bi":
         self.start_emiss_vec *= np.where(OFF_times_vec > 0, 1, 0)
     elif self.n_objs == "tri":
-        self.start_CO2s_vec *= np.where(OFF_times_vec > 0, 1, 0)
-        self.start_SO2s_vec *= np.where(OFF_times_vec > 0, 1, 0)        
+        self.start_emis1s_vec *= np.where(OFF_times_vec > 0, 1, 0)
+        self.start_emis2s_vec *= np.where(OFF_times_vec > 0, 1, 0)        
 
         
   def shutdown_costs_and_emissions_if_OFF(self):  
@@ -175,8 +175,8 @@ class SimEnv:
     if self.n_objs == "bi":
         self.shut_emiss_vec *= np.where(ON_times_vec > 0, 1, 0)
     elif self.n_objs == "tri":
-        self.shut_CO2s_vec *= np.where(ON_times_vec > 0, 1, 0)
-        self.shut_SO2s_vec *= np.where(ON_times_vec > 0, 1, 0)
+        self.shut_emis1s_vec *= np.where(ON_times_vec > 0, 1, 0)
+        self.shut_emis2s_vec *= np.where(ON_times_vec > 0, 1, 0)
 
   def prod_cost_funs(self, loads_vec: np.ndarray):
     if self.VPE == "yes":
@@ -197,30 +197,30 @@ class SimEnv:
         
     return np.where(loads_vec > 0, 1, 0) * cost_to_emis_factors_vec * prod_emis_funs_vec
     
-  def prod_CO2_funs(self, loads_vec: np.ndarray, cost_to_CO2_factors_vec: np.ndarray = 1):
+  def prod_emis1_funs(self, loads_vec: np.ndarray, cost_to_emis1_factors_vec: np.ndarray = 1):
     if self.VPE == "yes":
-        prod_CO2_funs_vec = (self.aCO2_vec * loads_vec**2 + self.bCO2_vec * loads_vec + self.cCO2_vec + 
-        self.dCO2_vec * np.exp(self.eCO2_vec * loads_vec)) if self.n_objs == "tri" else None
+        prod_emis1_funs_vec = (self.aemis1_vec * loads_vec**2 + self.bemis1_vec * loads_vec + self.cemis1_vec + 
+        self.demis1_vec * np.exp(self.eemis1_vec * loads_vec)) if self.n_objs == "tri" else None
     else:
-        prod_CO2_funs_vec = (
-            self.aCO2_vec * loads_vec**2 + self.bCO2_vec * loads_vec + self.cCO2_vec) if self.n_objs == "tri" else None         
+        prod_emis1_funs_vec = (
+            self.aemis1_vec * loads_vec**2 + self.bemis1_vec * loads_vec + self.cemis1_vec) if self.n_objs == "tri" else None         
     
-    return np.where(loads_vec > 0, 1, 0) * cost_to_CO2_factors_vec * prod_CO2_funs_vec
+    return np.where(loads_vec > 0, 1, 0) * cost_to_emis1_factors_vec * prod_emis1_funs_vec
         
 
-  def prod_SO2_funs(self, loads_vec: np.ndarray, cost_to_SO2_factors_vec: np.ndarray = 1):
+  def prod_emis2_funs(self, loads_vec: np.ndarray, cost_to_emis2_factors_vec: np.ndarray = 1):
     if self.VPE == "yes":
-        prod_SO2_funs_vec = (self.aSO2_vec * loads_vec**2 + self.bSO2_vec * loads_vec + self.cSO2_vec + 
-        self.dSO2_vec * np.exp(self.eSO2_vec * loads_vec)) if self.n_objs == "tri" else None
+        prod_emis2_funs_vec = (self.aemis2_vec * loads_vec**2 + self.bemis2_vec * loads_vec + self.cemis2_vec + 
+        self.demis2_vec * np.exp(self.eemis2_vec * loads_vec)) if self.n_objs == "tri" else None
     else:
-        prod_SO2_funs_vec = (
-            self.aSO2_vec * loads_vec**2 + self.bSO2_vec * loads_vec + self.cSO2_vec) if self.n_objs == "tri" else None         
+        prod_emis2_funs_vec = (
+            self.aemis2_vec * loads_vec**2 + self.bemis2_vec * loads_vec + self.cemis2_vec) if self.n_objs == "tri" else None         
     
-    return np.where(loads_vec > 0, 1, 0) * cost_to_SO2_factors_vec * prod_SO2_funs_vec
+    return np.where(loads_vec > 0, 1, 0) * cost_to_emis2_factors_vec * prod_emis2_funs_vec
     
 
   def summarize_marginal_functions(self):
-    # The cost, CO2 and SO2 functions are all upward functions for all units.
+    # The cost, emis1 and emis2 functions are all upward functions for all units.
     # But, there are some units whose "emission" functions are u shaped.
     # Hence, the min obj value is not necssarily at the min capacity, and 
     # the same is true for max obj values.
@@ -266,45 +266,45 @@ class SimEnv:
         
 
     elif self.n_objs == "tri":
-        self.max_cap_prod_CO2 = np.sum(self.prod_CO2_funs(self.p_max_vec))
-        min_prod_CO2_points_vec = np.where(self.p_min_vec > (p_min_vec := -self.bCO2_vec / (2 * self.aCO2_vec)),
+        self.max_cap_prod_emis1 = np.sum(self.prod_emis1_funs(self.p_max_vec))
+        min_prod_emis1_points_vec = np.where(self.p_min_vec > (p_min_vec := -self.bemis1_vec / (2 * self.aemis1_vec)),
                                       self.p_min_vec, p_min_vec) # same as "self.p_min_vec", no difference
-        max_prod_CO2_points_vec = np.where(self.prod_CO2_funs(self.p_min_vec) > self.prod_CO2_funs(self.p_max_vec),
+        max_prod_emis1_points_vec = np.where(self.prod_emis1_funs(self.p_min_vec) > self.prod_emis1_funs(self.p_max_vec),
                                       self.p_min_vec, self.p_max_vec) # same as "self.p_max_vec", no difference
 
-        self.min_prod_CO2s_vec = self.prod_CO2_funs(min_prod_CO2_points_vec)
-        self.max_prod_CO2s_vec = self.prod_CO2_funs(max_prod_CO2_points_vec)
+        self.min_prod_emis1s_vec = self.prod_emis1_funs(min_prod_emis1_points_vec)
+        self.max_prod_emis1s_vec = self.prod_emis1_funs(max_prod_emis1_points_vec)
         # So I made some adjustments as above
-        min_prod_CO2s_MW_vec = self.max_prod_CO2s_vec / min_prod_CO2_points_vec
-        max_prod_CO2s_MW_vec = self.min_prod_CO2s_vec / max_prod_CO2_points_vec 
+        min_prod_emis1s_MW_vec = self.max_prod_emis1s_vec / min_prod_emis1_points_vec
+        max_prod_emis1s_MW_vec = self.min_prod_emis1s_vec / max_prod_emis1_points_vec 
         
-        self.min_prod_CO2s_MW_vec = np.where(min_prod_CO2s_MW_vec < max_prod_CO2s_MW_vec, 
-                                             min_prod_CO2s_MW_vec, max_prod_CO2s_MW_vec)
-        self.max_prod_CO2s_MW_vec = np.where(min_prod_CO2s_MW_vec > max_prod_CO2s_MW_vec, 
-                                             min_prod_CO2s_MW_vec, max_prod_CO2s_MW_vec)
+        self.min_prod_emis1s_MW_vec = np.where(min_prod_emis1s_MW_vec < max_prod_emis1s_MW_vec, 
+                                             min_prod_emis1s_MW_vec, max_prod_emis1s_MW_vec)
+        self.max_prod_emis1s_MW_vec = np.where(min_prod_emis1s_MW_vec > max_prod_emis1s_MW_vec, 
+                                             min_prod_emis1s_MW_vec, max_prod_emis1s_MW_vec)
         
-        self.min_prod_CO2 = np.min(self.min_prod_CO2s_MW_vec * self.p_min_vec) 
-        self.max_prod_CO2 = np.sum(self.max_prod_CO2s_MW_vec * self.p_max_vec)
+        self.min_prod_emis1 = np.min(self.min_prod_emis1s_MW_vec * self.p_min_vec) 
+        self.max_prod_emis1 = np.sum(self.max_prod_emis1s_MW_vec * self.p_max_vec)
         
-        self.max_cap_prod_SO2 = np.sum(self.prod_SO2_funs(self.p_max_vec))
-        min_prod_SO2_points_vec = np.where(self.p_min_vec > (p_min_vec := -self.bSO2_vec / (2 * self.aSO2_vec)),
+        self.max_cap_prod_emis2 = np.sum(self.prod_emis2_funs(self.p_max_vec))
+        min_prod_emis2_points_vec = np.where(self.p_min_vec > (p_min_vec := -self.bemis2_vec / (2 * self.aemis2_vec)),
                                       self.p_min_vec, p_min_vec)
-        max_prod_SO2_points_vec = np.where(self.prod_SO2_funs(self.p_min_vec) > self.prod_SO2_funs(self.p_max_vec),
+        max_prod_emis2_points_vec = np.where(self.prod_emis2_funs(self.p_min_vec) > self.prod_emis2_funs(self.p_max_vec),
                                       self.p_min_vec, self.p_max_vec)
-        self.min_prod_SO2s_vec = self.prod_SO2_funs(min_prod_SO2_points_vec)
-        self.max_prod_SO2s_vec = self.prod_SO2_funs(max_prod_SO2_points_vec)
+        self.min_prod_emis2s_vec = self.prod_emis2_funs(min_prod_emis2_points_vec)
+        self.max_prod_emis2s_vec = self.prod_emis2_funs(max_prod_emis2_points_vec)
         # It is true that f(Pmax)/Pmax <= f(Pmin)/Pmin for all units
         # I just added it for consistency
-        min_prod_SO2s_MW_vec = self.max_prod_SO2s_vec / self.p_max_vec
-        max_prod_SO2s_MW_vec = self.min_prod_SO2s_vec / self.p_min_vec
+        min_prod_emis2s_MW_vec = self.max_prod_emis2s_vec / self.p_max_vec
+        max_prod_emis2s_MW_vec = self.min_prod_emis2s_vec / self.p_min_vec
 
-        self.min_prod_SO2s_MW_vec = np.where(min_prod_SO2s_MW_vec < max_prod_SO2s_MW_vec, 
-                                             min_prod_SO2s_MW_vec, max_prod_SO2s_MW_vec)
-        self.max_prod_SO2s_MW_vec = np.where(min_prod_SO2s_MW_vec > max_prod_SO2s_MW_vec, 
-                                             min_prod_SO2s_MW_vec, max_prod_SO2s_MW_vec)
+        self.min_prod_emis2s_MW_vec = np.where(min_prod_emis2s_MW_vec < max_prod_emis2s_MW_vec, 
+                                             min_prod_emis2s_MW_vec, max_prod_emis2s_MW_vec)
+        self.max_prod_emis2s_MW_vec = np.where(min_prod_emis2s_MW_vec > max_prod_emis2s_MW_vec, 
+                                             min_prod_emis2s_MW_vec, max_prod_emis2s_MW_vec)
         
-        self.min_prod_SO2 = np.min(self.min_prod_SO2s_MW_vec * self.p_min_vec) 
-        self.max_prod_SO2 = np.sum(self.max_prod_SO2s_MW_vec * self.p_max_vec)
+        self.min_prod_emis2 = np.min(self.min_prod_emis2s_MW_vec * self.p_min_vec) 
+        self.max_prod_emis2 = np.sum(self.max_prod_emis2s_MW_vec * self.p_max_vec)
         
     
   def cost_penalty_factors(self):
@@ -325,34 +325,34 @@ class SimEnv:
         standardized_slopes_vec = emis_slopes_vec / (max(emis_slopes_vec) - min(emis_slopes_vec))
         self.cost_to_emis_factors_vec = np.exp(standardized_slopes_vec) 
     elif self.n_objs == "tri":
-#         self.eta1_min_min_vec = self.min_prod_costs_vec / self.min_prod_CO2s_vec
-#         self.eta1_min_max_vec = self.min_prod_costs_vec / self.max_prod_CO2s_vec
-#         self.eta1_max_min_vec = self.max_prod_costs_vec / self.min_prod_CO2s_vec
-#         self.eta1_max_max_vec = self.max_prod_costs_vec / self.max_prod_CO2s_vec
+#         self.eta1_min_min_vec = self.min_prod_costs_vec / self.min_prod_emis1s_vec
+#         self.eta1_min_max_vec = self.min_prod_costs_vec / self.max_prod_emis1s_vec
+#         self.eta1_max_min_vec = self.max_prod_costs_vec / self.min_prod_emis1s_vec
+#         self.eta1_max_max_vec = self.max_prod_costs_vec / self.max_prod_emis1s_vec
 #         self.eta1_mean_vec = (self.eta1_min_min_vec + self.eta1_min_max_vec + 
 #                               self.eta1_max_min_vec + self.eta1_max_max_vec) / 4 
 #         self.eta1_common = np.sum(self.eta1_mean_vec) / self.n_units
         
         
-        max_cap_prod_CO2s_vec = self.prod_CO2_funs(self.p_max_vec)
-        min_cap_prod_CO2s_vec = self.prod_CO2_funs(self.p_min_vec)
-        CO2_slopes_vec = (max_cap_prod_costs_vec - min_cap_prod_costs_vec)/ (max_cap_prod_CO2s_vec - min_cap_prod_CO2s_vec)
-        standardized_CO2_slopes_vec = CO2_slopes_vec / (max(CO2_slopes_vec) - min(CO2_slopes_vec))
-        self.cost_to_CO2_factors_vec = np.exp(standardized_CO2_slopes_vec)
+        max_cap_prod_emis1s_vec = self.prod_emis1_funs(self.p_max_vec)
+        min_cap_prod_emis1s_vec = self.prod_emis1_funs(self.p_min_vec)
+        emis1_slopes_vec = (max_cap_prod_costs_vec - min_cap_prod_costs_vec)/ (max_cap_prod_emis1s_vec - min_cap_prod_emis1s_vec)
+        standardized_emis1_slopes_vec = emis1_slopes_vec / (max(emis1_slopes_vec) - min(emis1_slopes_vec))
+        self.cost_to_emis1_factors_vec = np.exp(standardized_emis1_slopes_vec)
         
-#         self.eta2_min_min_vec = self.min_prod_costs_vec / self.min_prod_SO2s_vec
-#         self.eta2_min_max_vec = self.min_prod_costs_vec / self.max_prod_SO2s_vec
-#         self.eta2_max_min_vec = self.max_prod_costs_vec / self.min_prod_SO2s_vec
-#         self.eta2_max_max_vec = self.max_prod_costs_vec / self.max_prod_SO2s_vec
+#         self.eta2_min_min_vec = self.min_prod_costs_vec / self.min_prod_emis2s_vec
+#         self.eta2_min_max_vec = self.min_prod_costs_vec / self.max_prod_emis2s_vec
+#         self.eta2_max_min_vec = self.max_prod_costs_vec / self.min_prod_emis2s_vec
+#         self.eta2_max_max_vec = self.max_prod_costs_vec / self.max_prod_emis2s_vec
 #         self.eta2_mean_vec = (self.eta1_min_min_vec + self.eta1_min_max_vec + 
 #                               self.eta1_max_min_vec + self.eta1_max_max_vec) / 4 
 #         self.eta2_common = np.sum(self.eta1_mean_vec) / self.n_units
         
-        max_cap_prod_SO2s_vec = self.prod_SO2_funs(self.p_max_vec)
-        min_cap_prod_SO2s_vec = self.prod_SO2_funs(self.p_min_vec)
-        SO2_slopes_vec = (max_cap_prod_costs_vec - min_cap_prod_costs_vec)/ (max_cap_prod_SO2s_vec - min_cap_prod_SO2s_vec)
-        standardized_SO2_slopes_vec = SO2_slopes_vec / (max(SO2_slopes_vec) - min(SO2_slopes_vec))
-        self.cost_to_SO2_factors_vec = np.exp(standardized_SO2_slopes_vec)  
+        max_cap_prod_emis2s_vec = self.prod_emis2_funs(self.p_max_vec)
+        min_cap_prod_emis2s_vec = self.prod_emis2_funs(self.p_min_vec)
+        emis2_slopes_vec = (max_cap_prod_costs_vec - min_cap_prod_costs_vec)/ (max_cap_prod_emis2s_vec - min_cap_prod_emis2s_vec)
+        standardized_emis2_slopes_vec = emis2_slopes_vec / (max(emis2_slopes_vec) - min(emis2_slopes_vec))
+        self.cost_to_emis2_factors_vec = np.exp(standardized_emis2_slopes_vec)  
 
   def penalties_for_incomplete_episodes(self):
     # startup values are not included
@@ -360,8 +360,8 @@ class SimEnv:
     if self.n_objs == "bi":  
         self.emis_penalties_vec = np.linspace(self.max_prod_emis, self.max_cap_prod_emis, num = self.n_timesteps)
     elif self.n_objs == "tri":
-        self.CO2_penalties_vec = np.linspace(self.max_prod_CO2, self.max_cap_prod_CO2, num = self.n_timesteps)
-        self.SO2_penalties_vec = np.linspace(self.max_prod_SO2, self.max_cap_prod_SO2, num = self.n_timesteps)
+        self.emis1_penalties_vec = np.linspace(self.max_prod_emis1, self.max_cap_prod_emis1, num = self.n_timesteps)
+        self.emis2_penalties_vec = np.linspace(self.max_prod_emis2, self.max_cap_prod_emis2, num = self.n_timesteps)
     
   def determine_priority_orders(self): 
     up_times_vec = np.maximum(self.up_times_vec, 0.001) # setting the minimum up time durations to 0.001
@@ -374,12 +374,12 @@ class SimEnv:
         else: self.ON_priorities_vec = (ON_costs_vec + ON_emiss_vec) / 2
         self.ON_priority_idx_vec = self.ON_priorities_vec.argsort() 
     elif self.n_objs =="tri":
-        ON_CO2_vec = (self.min_prod_CO2s_MW_vec + (self.start_CO2s_vec / self.p_max_vec)) / up_times_vec
-        ON_SO2_vec = (self.min_prod_SO2s_MW_vec + (self.start_SO2s_vec / self.p_max_vec)) / up_times_vec
+        ON_emis1_vec = (self.min_prod_emis1s_MW_vec + (self.start_emis1s_vec / self.p_max_vec)) / up_times_vec
+        ON_emis2_vec = (self.min_prod_emis2s_MW_vec + (self.start_emis2s_vec / self.p_max_vec)) / up_times_vec
         if self.w_cost == 1: self.ON_priorities_vec = ON_costs_vec
-        elif self.w_CO2 == 1: self.ON_priorities_vec = ON_CO2_vec
-        elif self.w_SO2 == 1: self.ON_priorities_vec = ON_SO2_vec
-        else: self.ON_priorities_vec = (ON_costs_vec + ON_CO2_vec + ON_SO2_vec) / 3
+        elif self.w_emis1 == 1: self.ON_priorities_vec = ON_emis1_vec
+        elif self.w_emis2 == 1: self.ON_priorities_vec = ON_emis2_vec
+        else: self.ON_priorities_vec = (ON_costs_vec + ON_emis1_vec + ON_emis2_vec) / 3
         self.ON_priority_idx_vec = self.ON_priorities_vec.argsort()
         
   def identify_must_ON_and_must_OFF_units(self): 
@@ -400,7 +400,6 @@ class SimEnv:
                 if np.sum(act_vec * self.p_max_vec) < demands_sr_vec[timestep]:
                     self.must_ON_vec[idx] = True
                     break
-                    
 
   def step(self, action_vec: np.ndarray):
     if not isinstance(action_vec, np.ndarray):
@@ -438,11 +437,11 @@ class SimEnv:
         "start_emiss_if_ON": self.start_emiss_vec if self.n_objs == "bi" else None,
         "shut_emiss_if_OFF": self.shut_emiss_vec if self.n_objs == "bi" else None,
         
-        "start_CO2s_if_ON": self.start_CO2s_vec if self.n_objs == "tri" else None,
-        "shut_CO2s_if_OFF": self.shut_CO2s_vec if self.n_objs == "tri" else None,
+        "start_emis1s_if_ON": self.start_emis1s_vec if self.n_objs == "tri" else None,
+        "shut_emis1s_if_OFF": self.shut_emis1s_vec if self.n_objs == "tri" else None,
         
-        "start_SO2s_if_ON": self.start_SO2s_vec if self.n_objs == "tri" else None,
-        "shut_SO2s_if_OFF": self.shut_SO2s_vec if self.n_objs == "tri" else None, 
+        "start_emis2s_if_ON": self.start_emis2s_vec if self.n_objs == "tri" else None,
+        "shut_emis2s_if_OFF": self.shut_emis2s_vec if self.n_objs == "tri" else None, 
         }
     
 #     if self.RR == "yes":
@@ -494,7 +493,14 @@ class SimEnv:
         for idx in priority_idx_vec:
             action_vec[idx] = 1
             remaining_supply = remaining_supply - self.p_max_vec[idx]
-            if remaining_supply <= 0.0001: break           
+            if remaining_supply <= 0.0001:
+                break
+#                 max_timestep = min(self.timestep + self.dn_times_vec[idx], self.n_timesteps)
+#                 for timestep in range(self.timestep, max_timestep):
+#                     demands_sr_vec = (1 + self.SR) * self.demands_vec
+#                     if np.sum(action_vec * self.p_max_vec) < demands_sr_vec[timestep]:
+#                         action_vec[idx] = 1
+#                         break
     return action_vec
 
   def _adjust_excess_capacity(self, demand: float, action_vec: np.ndarray):
@@ -524,8 +530,8 @@ class SimEnv:
     if self.n_objs == "bi":
         self.total_emis = self.start_emis + self.shut_emis + self.prod_emis
     elif self.n_objs == "tri":
-        self.total_CO2 = self.start_CO2 + self.shut_CO2 + self.prod_CO2 
-        self.total_SO2 = self.start_SO2 + self.shut_SO2 + self.prod_SO2
+        self.total_emis1 = self.start_emis1 + self.shut_emis1 + self.prod_emis1 
+        self.total_emis2 = self.start_emis2 + self.shut_emis2 + self.prod_emis2
 
   def _get_startup_results(self, action_vec: np.ndarray):
     self.start_cost = np.sum(action_vec * (1 - self.commits_vec) * self.start_costs_vec)
@@ -533,8 +539,8 @@ class SimEnv:
         self.start_emis = np.sum(action_vec * (1 - self.commits_vec) * self.start_emiss_vec)
 
     elif self.n_objs == "tri":
-        self.start_CO2 = np.sum(action_vec * (1 - self.commits_vec) * self.start_CO2s_vec)
-        self.start_SO2 = np.sum(action_vec * (1 - self.commits_vec) * self.start_SO2s_vec)
+        self.start_emis1 = np.sum(action_vec * (1 - self.commits_vec) * self.start_emis1s_vec)
+        self.start_emis2 = np.sum(action_vec * (1 - self.commits_vec) * self.start_emis2s_vec)
         
   def _get_shutdown_results(self, action_vec: np.ndarray):
     self.shut_cost = np.sum((1 - action_vec) * self.commits_vec * self.shut_costs_vec)
@@ -543,8 +549,8 @@ class SimEnv:
         self.shut_emis_penalty = np.sum((1 - action_vec) * self.commits_vec * 
                                         self.cost_to_emis_factors_vec * self.shut_emiss_vec)
     elif self.n_objs == "tri":
-        self.shut_CO2 = np.sum((1 - action_vec) * self.commits_vec * self.shut_CO2s_vec)
-        self.shut_SO2 = np.sum((1 - action_vec) * self.commits_vec * self.shut_SO2s_vec)
+        self.shut_emis1 = np.sum((1 - action_vec) * self.commits_vec * self.shut_emis1s_vec)
+        self.shut_emis2 = np.sum((1 - action_vec) * self.commits_vec * self.shut_emis2s_vec)
 
         
   def _get_production_results(self, demand: float, action_vec: np.ndarray):
@@ -555,8 +561,8 @@ class SimEnv:
         if self.n_objs == "bi":
             prod_emis = self.emis_penalties_vec[self.timestep]
         elif self.n_objs == "tri":
-            prod_CO2 = self.CO2_penalties_vec[self.timestep]
-            prod_SO2 = self.SO2_penalties_vec[self.timestep]
+            prod_emis1 = self.emis1_penalties_vec[self.timestep]
+            prod_emis2 = self.emis2_penalties_vec[self.timestep]
     elif np.sum(action_vec * self.p_min_vec) > demand:
         self.incomplete_episode = True 
         loads_vec = action_vec * self.p_min_vec
@@ -564,8 +570,8 @@ class SimEnv:
         if self.n_objs == "bi":
             prod_emis = self.emis_penalties_vec[self.timestep]
         elif self.n_objs == "tri":
-            prod_CO2 = self.CO2_penalties_vec[self.timestep]
-            prod_SO2 = self.SO2_penalties_vec[self.timestep]
+            prod_emis1 = self.emis1_penalties_vec[self.timestep]
+            prod_emis2 = self.emis2_penalties_vec[self.timestep]
     else:
         EC_EM_D = self.optimize_production(action_vec, demand)     
         loads_vec = EC_EM_D["loads_vec"]
@@ -573,16 +579,16 @@ class SimEnv:
         if self.n_objs == "bi":
             prod_emis = np.sum(self.prod_emis_funs(loads_vec))
         elif self.n_objs == "tri":
-            prod_CO2 = np.sum(self.prod_CO2_funs(loads_vec))
-            prod_SO2 = np.sum(self.prod_SO2_funs(loads_vec))
+            prod_emis1 = np.sum(self.prod_emis1_funs(loads_vec))
+            prod_emis2 = np.sum(self.prod_emis2_funs(loads_vec))
 
     self.loads_vec = loads_vec
     self.prod_cost = prod_cost
     if self.n_objs == "bi":
         self.prod_emis = prod_emis
     elif self.n_objs == "tri":
-        self.prod_CO2 = prod_CO2
-        self.prod_SO2 = prod_SO2
+        self.prod_emis1 = prod_emis1
+        self.prod_emis2 = prod_emis2
 
   def optimize_production(self, action_vec: np.ndarray, demand: float):
         idx = np.where(action_vec == 1)[0] 
@@ -597,21 +603,21 @@ class SimEnv:
                 emis_obj_values_vec = (self.ae_vec[idx] * p_vec**2 + self.be_vec[idx] * p_vec + 
                                        self.ce_vec[idx] + self.de_vec[idx] * 
                                        np.exp(self.ee_vec[idx] * p_vec)) if self.n_objs == "bi" else None
-                CO2_obj_values_vec = (self.aCO2_vec[idx] * p_vec**2 + self.bCO2_vec[idx] * p_vec + 
-                                      self.cCO2_vec[idx] + self.dCO2_vec[idx] * 
-                                      np.exp(self.eCO2_vec[idx] * p_vec)) if self.n_objs == "tri" else None
-                SO2_obj_values_vec = (self.aSO2_vec[idx] * p_vec**2 + self.bSO2_vec[idx] * p_vec + 
-                                      self.cSO2_vec[idx] + self.dSO2_vec[idx] * 
-                                      np.exp(self.eSO2_vec[idx] * p_vec)) if self.n_objs == "tri" else None
+                emis1_obj_values_vec = (self.aemis1_vec[idx] * p_vec**2 + self.bemis1_vec[idx] * p_vec + 
+                                      self.cemis1_vec[idx] + self.demis1_vec[idx] * 
+                                      np.exp(self.eemis1_vec[idx] * p_vec)) if self.n_objs == "tri" else None
+                emis2_obj_values_vec = (self.aemis2_vec[idx] * p_vec**2 + self.bemis2_vec[idx] * p_vec + 
+                                      self.cemis2_vec[idx] + self.demis2_vec[idx] * 
+                                      np.exp(self.eemis2_vec[idx] * p_vec)) if self.n_objs == "tri" else None
             else:
                 cost_obj_values_vec = (self.ac_vec[idx] * p_vec**2 + self.bc_vec[idx] * p_vec + 
                                        self.cc_vec[idx])
                 emis_obj_values_vec = (self.ae_vec[idx] * p_vec**2 + self.be_vec[idx] * p_vec + 
                                        self.ce_vec[idx]) if self.n_objs == "bi" else None
-                CO2_obj_values_vec = (self.aCO2_vec[idx] * p_vec**2 + self.bCO2_vec[idx] * p_vec + 
-                                      self.cCO2_vec[idx]) if self.n_objs == "tri" else None
-                SO2_obj_values_vec = (self.aSO2_vec[idx] * p_vec**2 + self.bSO2_vec[idx] * p_vec + 
-                                      self.cSO2_vec[idx]) if self.n_objs == "tri" else None  
+                emis1_obj_values_vec = (self.aemis1_vec[idx] * p_vec**2 + self.bemis1_vec[idx] * p_vec + 
+                                      self.cemis1_vec[idx]) if self.n_objs == "tri" else None
+                emis2_obj_values_vec = (self.aemis2_vec[idx] * p_vec**2 + self.bemis2_vec[idx] * p_vec + 
+                                      self.cemis2_vec[idx]) if self.n_objs == "tri" else None  
             
             if self.n_objs == "bi":
                 combined_obj_value = np.sum(self.w_cost * cost_obj_values_vec 
@@ -620,22 +626,22 @@ class SimEnv:
                                            )
             elif self.n_objs == "tri":
                 combined_obj_value = np.sum(self.w_cost * cost_obj_values_vec 
-                                            + (self.w_CO2 * self.cost_to_CO2_factors_vec[idx] * CO2_obj_values_vec 
-                                               if self.w_CO2 != 1 else CO2_obj_values_vec)
-                                            + (self.w_SO2 * self.cost_to_SO2_factors_vec[idx] * SO2_obj_values_vec
-                                               if self.w_SO2 != 1 else SO2_obj_values_vec)
+                                            + (self.w_emis1 * self.cost_to_emis1_factors_vec[idx] * emis1_obj_values_vec 
+                                               if self.w_emis1 != 1 else emis1_obj_values_vec)
+                                            + (self.w_emis2 * self.cost_to_emis2_factors_vec[idx] * emis2_obj_values_vec
+                                               if self.w_emis2 != 1 else emis2_obj_values_vec)
                                            )
 
             if self.n_objs == "bi":
                 if 0 <= self.w_cost < 1 and emis_obj_values_vec is None:
                     raise Exception(f"Cost weight = {self.w_cost} but emission obj. values vector is None.")
             elif self.n_objs == "tri":
-                if 0 <= self.w_CO2 < 1:
-                    if CO2_obj_values_vec is None:
-                        raise Exception(f"CO2 weight = {self.w_CO2} but CO2 obj. values vector is None.")
-                if 0 <= self.w_SO2 < 1:
-                    if SO2_obj_values_vec is None:
-                        raise Exception(f"SO2 weight = {self.w_SO2} but SO2 obj. values vector is None.")
+                if 0 <= self.w_emis1 < 1:
+                    if emis1_obj_values_vec is None:
+                        raise Exception(f"emis1 weight = {self.w_emis1} but emis1 obj. values vector is None.")
+                if 0 <= self.w_emis2 < 1:
+                    if emis2_obj_values_vec is None:
+                        raise Exception(f"emis2 weight = {self.w_emis2} but emis2 obj. values vector is None.")
             return combined_obj_value
 
         load_bounds = np.concatenate([p_min_vec, p_max_vec], axis=1)
@@ -664,15 +670,15 @@ class SimEnv:
         "prod_emis": round(self.prod_emis, 1) if self.n_objs == "bi" else None,
         "total_emis": round(self.total_emis, 1) if self.n_objs == "bi" else None,
         
-        "start_CO2": round(self.start_CO2, 1) if self.n_objs == "tri" else None,
-        "shut_CO2": round(self.shut_CO2, 1) if self.n_objs == "tri" else None,
-        "prod_CO2": round(self.prod_CO2, 1) if self.n_objs == "tri" else None,
-        "total_CO2": round(self.total_CO2, 1) if self.n_objs == "tri" else None,
+        "start_emis1": round(self.start_emis1, 1) if self.n_objs == "tri" else None,
+        "shut_emis1": round(self.shut_emis1, 1) if self.n_objs == "tri" else None,
+        "prod_emis1": round(self.prod_emis1, 1) if self.n_objs == "tri" else None,
+        "total_emis1": round(self.total_emis1, 1) if self.n_objs == "tri" else None,
 
-        "start_SO2": round(self.start_SO2, 1) if self.n_objs == "tri" else None,
-        "shut_SO2": round(self.shut_SO2, 1) if self.n_objs == "tri" else None,
-        "prod_SO2": round(self.prod_SO2, 1) if self.n_objs == "tri" else None,
-        "total_SO2": round(self.total_SO2, 1) if self.n_objs == "tri" else None,
+        "start_emis2": round(self.start_emis2, 1) if self.n_objs == "tri" else None,
+        "shut_emis2": round(self.shut_emis2, 1) if self.n_objs == "tri" else None,
+        "prod_emis2": round(self.prod_emis2, 1) if self.n_objs == "tri" else None,
+        "total_emis2": round(self.total_emis2, 1) if self.n_objs == "tri" else None,
         }
     return info_dict
 
@@ -682,12 +688,12 @@ class SimEnv:
         EPI = (self.total_emis - self.min_prod_emis) / (self.max_prod_emis - self.min_prod_emis)
         PI = (self.w_cost == 1) * CPI + (self.w_emis == 1) * EPI + (0 < self.w_cost < 1) * (CPI + EPI) / 2
     elif self.n_objs == "tri":
-        CO2PI = (self.total_CO2 - self.min_prod_CO2) / (self.max_prod_CO2 - self.min_prod_CO2)
-        SO2PI = (self.total_SO2 - self.min_prod_SO2) / (self.max_prod_SO2 - self.min_prod_SO2)
+        emis1PI = (self.total_emis1 - self.min_prod_emis1) / (self.max_prod_emis1 - self.min_prod_emis1)
+        emis2PI = (self.total_emis2 - self.min_prod_emis2) / (self.max_prod_emis2 - self.min_prod_emis2)
         if self.w_cost == 1: PI = CPI
-        elif self.w_CO2 == 1: PI = CO2PI
-        elif self.w_SO2 == 1: PI = SO2PI
-        else: PI = (CPI + CO2PI + SO2PI) / 3
+        elif self.w_emis1 == 1: PI = emis1PI
+        elif self.w_emis2 == 1: PI = emis2PI
+        else: PI = (CPI + emis1PI + emis2PI) / 3
 
     reward = 1 / PI
 

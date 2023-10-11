@@ -14,15 +14,15 @@ def get_schedules(environ, trained_agents):
   shut_emiss = []
   prod_emiss = []
   total_emiss = []
-  start_CO2s = [] 
-  shut_CO2s = []
-  prod_CO2s = []
-  total_CO2s = []
+  start_emis1s = [] 
+  shut_emis1s = []
+  prod_emis1s = []
+  total_emis1s = []
 
-  start_SO2s = [] 
-  shut_SO2s = []
-  prod_SO2s = []
-  total_SO2s = []
+  start_emis2s = [] 
+  shut_emis2s = []
+  prod_emis2s = []
+  total_emis2s = []
 
   n_periods = 0
   done = False
@@ -43,15 +43,15 @@ def get_schedules(environ, trained_agents):
         prod_emiss.append(info_dict["prod_emis"])
         total_emiss.append(info_dict["total_emis"]) 
     elif environ.n_objs == "tri":
-        start_CO2s.append(info_dict["start_CO2"])
-        shut_CO2s.append(info_dict["shut_CO2"])
-        prod_CO2s.append(info_dict["prod_CO2"])
-        total_CO2s.append(info_dict["total_CO2"]) 
+        start_emis1s.append(info_dict["start_emis1"])
+        shut_emis1s.append(info_dict["shut_emis1"])
+        prod_emis1s.append(info_dict["prod_emis1"])
+        total_emis1s.append(info_dict["total_emis1"]) 
         
-        start_SO2s.append(info_dict["start_SO2"])
-        shut_SO2s.append(info_dict["shut_SO2"])
-        prod_SO2s.append(info_dict["prod_SO2"])
-        total_SO2s.append(info_dict["total_SO2"]) 
+        start_emis2s.append(info_dict["start_emis2"])
+        shut_emis2s.append(info_dict["shut_emis2"])
+        prod_emis2s.append(info_dict["prod_emis2"])
+        total_emis2s.append(info_dict["total_emis2"]) 
         
     
     n_periods += 1
@@ -100,15 +100,15 @@ def get_schedules(environ, trained_agents):
                                                  np.array(prod_costs).reshape(-1, 1),
                                                  np.array(total_costs).reshape(-1, 1),
                                                  
-                                                 np.array(start_CO2s).reshape(-1, 1),
-                                                 np.array(shut_CO2s).reshape(-1, 1),
-                                                 np.array(prod_CO2s).reshape(-1, 1),
-                                                 np.array(total_CO2s).reshape(-1, 1),
+                                                 np.array(start_emis1s).reshape(-1, 1),
+                                                 np.array(shut_emis1s).reshape(-1, 1),
+                                                 np.array(prod_emis1s).reshape(-1, 1),
+                                                 np.array(total_emis1s).reshape(-1, 1),
 
-                                                 np.array(start_SO2s).reshape(-1, 1),
-                                                 np.array(shut_SO2s).reshape(-1, 1),
-                                                 np.array(prod_SO2s).reshape(-1, 1),
-                                                 np.array(total_SO2s).reshape(-1, 1),
+                                                 np.array(start_emis2s).reshape(-1, 1),
+                                                 np.array(shut_emis2s).reshape(-1, 1),
+                                                 np.array(prod_emis2s).reshape(-1, 1),
+                                                 np.array(total_emis2s).reshape(-1, 1),
                                                 ], axis=1),
                                  columns = ["Hour","Demand", *commit_names, *load_names, "Reserve (%)",
                                             "Startup Cost", 
@@ -116,23 +116,23 @@ def get_schedules(environ, trained_agents):
                                             "Production Cost", 
                                             "Total Cost",
 
-                                            "Startup CO2", 
-                                            "Shutdown CO2",
-                                            "Production CO2",
-                                            "Total CO2",
+                                            "Startup emis1", 
+                                            "Shutdown emis1",
+                                            "Production emis1",
+                                            "Total emis1",
                                             
-                                            "Startup SO2", 
-                                            "Shutdown SO2",
-                                            "Production SO2",
-                                            "Total SO2"
+                                            "Startup emis2", 
+                                            "Shutdown emis2",
+                                            "Production emis2",
+                                            "Total emis2"
                                            ])
       dispatch_df[["Hour", *commit_names]] = dispatch_df[["Hour", *commit_names]].astype(int)
       print(f"Total cost = $ {round(np.sum(total_costs), 1)}/day.")
-      print(f"Total CO2 = lb {round(np.sum(total_CO2s), 1)}/day.")
-      print(f"Total SO2 = lb {round(np.sum(total_SO2s), 1)}/day.")
+      print(f"Total emis1 = lb {round(np.sum(total_emis1s), 1)}/day.")
+      print(f"Total emis2 = lb {round(np.sum(total_emis2s), 1)}/day.")
     
   return (round(np.sum(total_costs), 1), 
           round(np.sum(total_emiss), 1) if environ.n_objs == "bi" else None,
-          round(np.sum(total_CO2s), 1) if environ.n_objs == "tri" else None, 
-          round(np.sum(total_SO2s), 1) if environ.n_objs == "tri" else None, 
+          round(np.sum(total_emis1s), 1) if environ.n_objs == "tri" else None, 
+          round(np.sum(total_emis2s), 1) if environ.n_objs == "tri" else None, 
           dispatch_df)
