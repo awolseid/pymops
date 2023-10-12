@@ -285,10 +285,10 @@ class DQNAgents:
           ], axis = 1),
                                              columns=["Episode", "Timesteps", "Rewards", "Startup Cost",
                                              "Shutdown Cost", "Production Cost", "Total Cost",
-                                             "Startup emis1", "Shutup emis1", 
-                                             "Production emis1", "Total emis1",
-                                             "Startup emis2", "Shutup emis2", 
-                                             "Production emis2", "Total emis2"                                                     
+                                             "Startup Emis1", "Shutup emis1", 
+                                             "Production Emis1", "Total emis1",
+                                             "Startup Emis2", "Shutup emis2", 
+                                             "Production Emis2", "Total emis2"                                                     
                                                      ])        
     
       training_results_df[["Timesteps"]] = training_results_df[["Timesteps"]].astype(int)  
