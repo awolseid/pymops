@@ -2,7 +2,7 @@
 
 ## About
 
-Power scheduling is an NP-hard optimization problem with high dimensionality, combinatorial nature, non-convex, non-smooth, and discontinuous properties with multi-period multiple constraints.
+Power scheduling is an NP-hard optimization problem with high dimensionality, combinatorial nature, non-convex, non-smooth, and discontinuous properties together with multi-period multiple constraints.
 
 - Two sequential tasks:
   - Unit Commitment
