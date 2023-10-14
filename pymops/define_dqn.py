@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class DQNet(nn.Module):
-    def __init__(self, environ, hidden_nodes):
+    def __init__(self, environ, hidden_nodes = 32):
         super(DQNet, self).__init__()
         self.environ = environ
         self.state_vec, _ = self.environ.reset()

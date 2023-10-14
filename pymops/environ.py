@@ -5,11 +5,11 @@ from scipy.optimize import minimize, LinearConstraint
 class SimEnv:
   def __init__(self, 
                supply_df: pd.DataFrame, 
-               demand_df: pd.DataFrame, 
+               demand_df: pd.DataFrame,
+               n_objs = None,  
                SR: float = 0.0,
                RR: str = None, 
                VPE: str = None,
-               n_objs = None, 
                w = None,
                duplicates: int = None):
     if not isinstance(supply_df, pd.DataFrame): raise TypeError("Supply info must be a dataframe.")
@@ -149,9 +149,9 @@ class SimEnv:
             print(f"DUAL OBJECTIVES (Cost and Emission): w = {self.w} RR = {self.RR}, VPE = {self.VPE}, SR = {self.SR}")
     elif self.n_objs == "tri":
         if self.w_emis1 == 1: 
-            print(f'"emis1 EMISSIONS" Optimization: RR = {self.RR}, VPE = {self.VPE}, Reserve = {self.SR}')
+            print(f'"EMISSION 1" Optimization: RR = {self.RR}, VPE = {self.VPE}, Reserve = {self.SR}')
         elif self.w_emis2 == 1: 
-            print(f'"emis2 EMISSIONS" Optimization: RR = {self.RR}, VPE = {self.VPE}, Reserve = {self.SR}')
+            print(f'"EMISSION 2" Optimization: RR = {self.RR}, VPE = {self.VPE}, Reserve = {self.SR}')
         else: 
             print(f"TRI OBJECTIVES (Cost, emis1 and emis2): w = {self.w}, RR = {self.RR}, VPE = {self.VPE}, SR = {self.SR}")
 
@@ -402,8 +402,9 @@ class SimEnv:
                     break
 
   def step(self, action_vec: np.ndarray):
-    if not isinstance(action_vec, np.ndarray):
-        raise TypeError("Action vector must be a NumPy array.")
+    if not (isinstance(action_vec, list) or isinstance(np.array(action_vec), np.ndarray)):
+        raise TypeError("Action vector must be a list or NumPy array.")
+    action_vec = np.array(action_vec)
     state_flat, state_dict = self.get_current_state()
     self.demand = state_dict["demand"]
     demand_SR= round((1 + self.SR) * self.demand, 1)

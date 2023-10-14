@@ -89,8 +89,8 @@ def get_schedules(environ, trained_agents):
                                             "Total Emission"
                                            ])
       dispatch_df[["Hour", *commit_names]] = dispatch_df[["Hour", *commit_names]].astype(int)
-      print(f"Total cost = $ {round(np.sum(total_costs), 1)}/day.")
-      print(f"Total emis = lb {round(np.sum(total_emiss), 1)}/day.")
+      print(f"Total Cost = {round(np.sum(total_costs), 1)} $/day.")
+      print(f"Total Emission = {round(np.sum(total_emiss), 1)} lbs/day.")
   elif environ.n_objs == "tri":
       dispatch_df = pd.DataFrame(np.concatenate([periods_vec, demands_vec.reshape(-1, 1), 
                                                  np.array(commits_array), np.array(loads_array),
@@ -116,23 +116,18 @@ def get_schedules(environ, trained_agents):
                                             "Production Cost", 
                                             "Total Cost",
 
-                                            "Startup emis1", 
-                                            "Shutdown emis1",
-                                            "Production emis1",
-                                            "Total emis1",
+                                            "Startup Emission1", 
+                                            "Shutdown Emission1",
+                                            "Production Emission1",
+                                            "Total Emission1",
                                             
-                                            "Startup emis2", 
-                                            "Shutdown emis2",
-                                            "Production emis2",
-                                            "Total emis2"
+                                            "Startup Emission2", 
+                                            "Shutdown Emission2",
+                                            "Production Emission2",
+                                            "Total Emission2"
                                            ])
       dispatch_df[["Hour", *commit_names]] = dispatch_df[["Hour", *commit_names]].astype(int)
-      print(f"Total cost = $ {round(np.sum(total_costs), 1)}/day.")
-      print(f"Total emis1 = lb {round(np.sum(total_emis1s), 1)}/day.")
-      print(f"Total emis2 = lb {round(np.sum(total_emis2s), 1)}/day.")
-    
-  return (round(np.sum(total_costs), 1), 
-          round(np.sum(total_emiss), 1) if environ.n_objs == "bi" else None,
-          round(np.sum(total_emis1s), 1) if environ.n_objs == "tri" else None, 
-          round(np.sum(total_emis2s), 1) if environ.n_objs == "tri" else None, 
-          dispatch_df)
+      print(f"Total cost = {round(np.sum(total_costs), 1)} $/day.")
+      print(f"Total Emission1 = {round(np.sum(total_emis1s), 1)} lbs/day.")
+      print(f"Total Emission2 = {round(np.sum(total_emis2s), 1)} lbs/day.")
+  return dispatch_df

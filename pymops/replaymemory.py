@@ -1,7 +1,7 @@
 import numpy as np
 
 class ReplayMemory:
-  def __init__(self, environ, buffer_size):
+  def __init__(self, environ, buffer_size = 32):
     self.buffer_size = buffer_size
     self.state_vec, _ = environ.reset()
     self.input_dim = len(self.state_vec)

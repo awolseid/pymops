@@ -13,7 +13,7 @@ class DQNAgents:
                  model, 
                  epsilon_max = 1.0, 
                  epsilon_min = 0.0, 
-                 epsilon_decay = 0.99, 
+                 epsilon_decay = 1.0, 
                  lr = 0.003, 
                  lr_gamma = 1.0, 
                  gamma = 0.99):
@@ -285,10 +285,10 @@ class DQNAgents:
           ], axis = 1),
                                              columns=["Episode", "Timesteps", "Rewards", "Startup Cost",
                                              "Shutdown Cost", "Production Cost", "Total Cost",
-                                             "Startup Emis1", "Shutup emis1", 
-                                             "Production Emis1", "Total emis1",
-                                             "Startup Emis2", "Shutup emis2", 
-                                             "Production Emis2", "Total emis2"                                                     
+                                             "Startup Emission1", "Shutup Emission1", 
+                                             "Production Emission1", "Total Emission1",
+                                             "Startup Emission2", "Shutup Emission2", 
+                                             "Production Emission2", "Total Emission2"                                                     
                                                      ])        
     
       training_results_df[["Timesteps"]] = training_results_df[["Timesteps"]].astype(int)  
