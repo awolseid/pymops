@@ -12,7 +12,7 @@ Power scheduling is an NP-hard optimization problem with high dimensionality, co
 
 Multi-Objective Power Scheduling aims to determine an optimal load dispatch schedule for simultaneously minimizing different conflicting objectives, particularly economic costs and environmental emissions.
 
-`pymops` is an open-source Python package developed for solving mono- to tri-objective optimization in power scheduling problems. The package is built on a novel multi-agent reinforcement learning (MARL)-based methodology built on an adaptive MARL simulation environment, where the power-generating units are represented as multiple RL agents. The agents are heterogeneous, each with multiple conflicting objectives. The MOPS dynamics are simulated from the environment using Markov Decision Processes (MDPs), which can be used to train a Multi-Agent Deep RL (MADRL) model. 
+`pymops` is an open-source Python package developed for solving mono- to tri-objective optimization in power scheduling problems. The package is built on a novel multi-agent reinforcement learning (MARL)-based adaptive simulation environment, where the power-generating units are represented as multiple RL agents. The agents are heterogeneous, each with multiple conflicting objectives. The MOPS dynamics are simulated from the environment using Markov Decision Processes (MDPs), which are then used to train a Multi-Agent Deep RL (MADRL) model. 
 
 
 
