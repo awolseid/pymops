@@ -214,23 +214,15 @@ Or it can be cloned from GitHub repo and installed.
           ```
 
 ### Contact Information
-Any questions, issues, suggestions, or collaboration opportunities can be reached at: awolseid@pukyong.ac.kr; youngk@pknu.ac.kr. 
+Any questions, issues, suggestions, or collaboration opportunities can be reached at: awolseid@pukyong.ac.kr ; youngk@pknu.ac.kr. 
 
-### Code Ocean Reproducible Capsule
-https://codeocean.com/capsule/0242917/tree
 
-### Package Citation
+### Citation
 
 Users should cite the following resources. 
 
-- Code Ocean Reproducible **[Capsule](https://codeocean.com/capsule/0242917/tree)**:
+- Code Ocean Reproducible Capsule: https://codeocean.com/capsule/0242917/tree:
 
-```
-Awol Seid Ebrie, Young Jin Kim (2023) pymops: A multi-agent reinforcement learning simulation environment for multi-objective optimization in power scheduling [Source Code]. https://doi.org/10.24433/CO.9235622.v1 
-```
-
-- **[Article](https://www.mdpi.com/1996-1073/16/16/5920) produced using the very first version of the package:
-
-```
-Ebrie, A.S.; Paik, C.; Chung, Y.; Kim, Y.J. Environment-Friendly Power Scheduling Based on Deep Contextual Reinforcement Learning. Energies 2023, 16, 5920. https://doi.org/10.3390/en16165920.   
-```
+  - **Ebrie, A.S.**;, **Kim, Y.J.** (2023). pymops: *A multi-agent reinforcement learning simulation environment for multi-objective optimization in power scheduling* [Software Code]. https://doi.org/10.24433/CO.9235622.v1 
+- **[Article](https://www.mdpi.com/1996-1073/16/16/5920) produced from the very first version of the package:
+  - **Ebrie, A.S.**; **Paik, C.**; **Chung, Y.**; **Kim, Y.J.** (2023). *Environment-Friendly Power Scheduling Based on Deep Contextual Reinforcement Learning*. *Energies*, 16, 5920. https://doi.org/10.3390/en16165920.   
