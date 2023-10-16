@@ -1,4 +1,4 @@
-Unit_ID,P_max,P_min,aCost,bCost,cCost,dCost,eCost,aEmis,bEmis,cEmis,dEmis,eEmis,aEmis1,bEmis1,cEmis1,aEmis2,bEmis2,cEmis2,Ramp_down,Ramp_up,Up_time,Down_time,Hot_Cost,Cold_Cost,Cold_Periods,Shut_Cost,Initial_Duration
+UnitID,MaxCap,MinCap,aCost,bCost,cCost,dCost,eCost,aEmis,bEmis,cEmis,dEmis,eEmis,aEmis1,bEmis1,cEmis1,aEmis2,bEmis2,cEmis2,RampDown,RampUp,UpTime,DownTime,HotCost,ColdCost,ColdPeriods,ShutCost,InitialDuration
 U1,455,150,0.00048,16.19,1000,450,0.041,0.0046,-0.5112,42.8955,0.2547,0.01234,0.00019,2.06,198.33,0.022,-2.86,130,160,160,8,8,4500,9000,5,0,8
 U2,455,150,0.00031,17.26,970,600,0.036,0.0046,-0.5112,42.8955,0.2547,0.01234,0.00018,2.09,195.34,0.02,-2.72,132,160,160,8,8,5000,10000,5,0,8
 U3,130,20,0.002,16.6,700,320,0.028,0.0068,0.5455,40.2669,0.2499,0.01203,0.0022,2.14,155.15,0.044,-2.94,137.7,100,100,5,5,550,1100,4,0,-5
