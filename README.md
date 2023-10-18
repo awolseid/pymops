@@ -1,4 +1,4 @@
-# `pymops`: A multi-agent reinforcement learning simulation environment for multi-objective optimization in power scheduling
+# `pymops`: A multi-agent simulation-based optimization package for power scheduling
 
 ## About
 
@@ -10,15 +10,15 @@ Power scheduling is an NP-hard optimization problem with high dimensionality, co
     - Economic Load Dispatch
     - Environmental Load Dispatch
 
-Multi-Objective Power Scheduling aims to determine an optimal load dispatch schedule for simultaneously minimizing different conflicting objectives, particularly economic costs and environmental emissions.
+Power Scheduling aims to determine an optimal load dispatch schedule for simultaneously minimizing different conflicting objectives, particularly economic costs and environmental emissions.
 
-`pymops` is an open-source Python package developed for solving mono- to tri-objective optimization in power scheduling problems. The package is built on a novel multi-agent reinforcement learning (MARL)-based adaptive simulation environment, where the power-generating units are represented as multiple RL agents. The agents are heterogeneous, each with multiple conflicting objectives. The MOPS dynamics are simulated from the environment using Markov Decision Processes (MDPs), which are then used to train a Multi-Agent Deep RL (MADRL) model. 
+`pymops` is an open-source Python package developed for solving single- to tri-objective optimization in power scheduling problems. The package is built on a novel multi-agent simulation environment, where power-generating units are represented as agents. The agents are heterogeneous, each with multiple conflicting objectives. The scheduling dynamics are simulated using Markov Decision Processes (MDPs), which are used to train a deep reinforcement learning model for solving the optimization problem. 
 
 
 
-### Multi-Objective Function
+### Objective Function
 
-The multi-objective function is formulated by combining the different conflicting objectives via a hybrid approach that uses both weighting hyperparameters and unit-specific cost-to-emission conversion factors:
+The general multi-objective function is formulated by combining different conflicting objectives via a hybrid approach that uses both weighting hyperparameters and unit-specific cost-to-emission conversion factors:
 
 $$\cal \Phi(C,E)=\sum\limits_{t=1}^{24}\sum\limits_{i=1}^n[\omega_0C_{ti}+\sum\limits_{h=1}^m\omega_h\eta_{ih}E_{ti}^{(h)}]$$
 
@@ -49,7 +49,7 @@ $$\cal E_{ti}=z_{ti}E^{on}(p_{ti})+z_{ti}(1-z_{t-1,i})E_{ti}^{su}+(1-z_{ti})z_{t
 
 
 
-### The MARL Framework
+### The Multi-Agent Reinforcement Learning (MARL) Framework
 The framework MARL manifests the form of state $\cal S$, action  $\cal A$, transition (probability) function  $\cal P$ and reward  $\cal R$. 
 
 - **Planning Horizon**: The scheduling horizon is an hourly divided day.
