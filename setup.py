@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 PACKAGE_NAME = 'pymops'
 VERSION = '1.1.0'
-DESCRIPTION = 'Multi-agent reinforcement learning simulation environment for multi-objective optimization in power scheduling'
+DESCRIPTION = 'A multi-agent simulation-based optimization package for power scheduling'
 LONG_DESCRIPTION = long_description  
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown' 
 KEYWORDS = ['Economic Dispach', 'Power Scheduling', 'Reinforcement Learning','Unit Commitment'] 
