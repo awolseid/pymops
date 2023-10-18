@@ -20,7 +20,7 @@ def main():
     BATCH       = 64
 
 
-    hyperparams_dict = {
+    settings_dict = {
         "N_OBJS":    ["bi", "bi", "bi", "bi", "tri", "tri"],
         "RR":        ["no", "yes", "no", "yes", "no", "yes"],
         "VPE":       ["no", "no", "yes", "yes", "no", "no"],
@@ -29,13 +29,13 @@ def main():
         "EPISODES":  [8000, 8000, 8000, 8000, 10000, 10000]
     }
     
-    for i in range(len(hyperparams_dict)):
-        N_OBJS    = hyperparams_dict['N_OBJS'][i]
-        RR        = hyperparams_dict['RR'][i]
-        VPE       = hyperparams_dict['VPE'][i]
-        W         = hyperparams_dict['W'][i]
-        EPS_DECAY = hyperparams_dict['EPS_DECAY'][i]
-        EPISODES  = hyperparams_dict['EPISODES'][i]
+    for i in range(len(settings_dict)):
+        N_OBJS    = settings_dict['N_OBJS'][i]
+        RR        = settings_dict['RR'][i]
+        VPE       = settings_dict['VPE'][i]
+        W         = settings_dict['W'][i]
+        EPS_DECAY = settings_dict['EPS_DECAY'][i]
+        EPISODES  = settings_dict['EPISODES'][i]
 
         env = SimEnv(supply_df  = pd.read_csv(sup_url), 
                      demand_df  = pd.read_csv(dem_url), 
