@@ -12,20 +12,26 @@ class SimEnv:
                VPE: str = None,
                w = None,
                duplicates: int = None):
-    if not isinstance(supply_df, pd.DataFrame): raise TypeError("Supply info must be a dataframe.")
-    if not isinstance(demand_df, pd.DataFrame): raise TypeError("Demand profile must be a dataframe.")
+    if not isinstance(supply_df, pd.DataFrame): 
+        raise TypeError("Supply info must be a dataframe.")
+    if not isinstance(demand_df, pd.DataFrame): 
+        raise TypeError("Demand profile must be a dataframe.")
         
-    if not isinstance(float(SR), float): raise TypeError("Reserve percentage must be a number.")
+    if not isinstance(float(SR), float): 
+        raise TypeError("Reserve percentage must be a number.")
     else: 
-        if (SR< 0.0 or SR> 1.0): raise Exception("Reserve percentage must be between 0.0 and 1.0.")
+        if (SR< 0.0 or SR> 1.0): 
+            raise Exception("Reserve percentage must be between 0.0 and 1.0.")
 
     if RR is not None: 
-        if str(RR).isalpha() == False: raise TypeError("Input for RR must be a non-numeric string.")
+        if str(RR).isalpha() == False: 
+            raise TypeError("Input for RR must be a non-numeric string.")
         else: 
             if RR.lower() not in ["yes", "no"]: 
                 raise Exception("Input for RR must be 'Yes' or 'No' (default = None).")
     if VPE is not None: 
-        if str(VPE).isalpha() == False: raise TypeError("Input for VPE must be a non-numeric string.")
+        if str(VPE).isalpha() == False: 
+            raise TypeError("Input for VPE must be a non-numeric string.")
         else: 
             if VPE.lower() not in ["yes", "no"]: 
                 raise Exception("Input for VPE must be 'Yes' or 'No' (default = None).")
@@ -39,20 +45,27 @@ class SimEnv:
                 raise Exception('Input for n_objs must be "bi" for bijective or "tri" for trijective.')
     if n_objs.lower() == "bi":
         if w is None: w = [1, 0]
-        elif type(w) != float: raise TypeError("Weight w for a bijective must be a scalar.")
-        elif type(float(w)) != float: raise TypeError("Weight w for a bijective must be float.")
-        elif (w < 0 or w > 1): raise TypeError("Weight w for a bijective must be in [0, 1].")
+        elif type(w) != float: 
+            raise TypeError("Weight w for a bijective must be a scalar.")
+        elif type(float(w)) != float: 
+            raise TypeError("Weight w for a bijective must be float.")
+        elif (w < 0 or w > 1): 
+            raise TypeError("Weight w for a bijective must be in [0, 1].")
         else: w = [w, 1 - w]
     elif n_objs.lower() == "tri":
         if w is None: w = np.random.dirichlet(np.ones(3), size = 1)[0]
         elif type(w) == list: 
-            if abs(sum(w) - 1) > 0.001: raise Exception("Sum of weights != 1.")
-        elif type(float(w)) == float: raise TypeError("Weight w for a trijective must be a list.")
+            if abs(sum(w) - 1) > 0.001: 
+                raise Exception("Sum of weights != 1.")
+        elif type(float(w)) == float: 
+            raise TypeError("Weight w for a trijective must be a list.")
         
     if duplicates == None: duplicates = 1
-    elif not isinstance(duplicates, int): raise TypeError("Duplicates must be an integer.")
+    elif not isinstance(duplicates, int): 
+        raise TypeError("Duplicates must be an integer.")
     else:
-        if (duplicates < 0.0): raise Exception("Duplicates must be a positive integer.")
+        if (duplicates < 0.0): 
+            raise Exception("Duplicates must be a positive integer.")
             
     self.duplicates = duplicates
     self.supply_df = supply_df.reindex(supply_df.index.repeat(self.duplicates)).reset_index(drop=True)
@@ -68,19 +81,20 @@ class SimEnv:
     self.n_timesteps = self.demand_df.shape[0]
     self.demands_vec = self.demand_df["Demand"].to_numpy()
 
-    self.p_min_vec = self.supply_df["P_min"].to_numpy()
-    self.p_max_vec = self.supply_df["P_max"].to_numpy()
+    self.p_min_vec = self.supply_df["MinCap"].to_numpy()
+    self.p_max_vec = self.supply_df["MaxCap"].to_numpy()
     if self.RR == "yes":
-        self.ramp_dn_vec = self.supply_df["Ramp_down"].to_numpy() 
-        self.ramp_up_vec = self.supply_df["Ramp_up"].to_numpy()  
-    self.dn_times_vec = self.supply_df["Down_time"].to_numpy()
-    self.up_times_vec = self.supply_df["Up_time"].to_numpy()
-    self.durations_vec = self.supply_df["Initial_Duration"].to_numpy()
-    self.hot_costs_vec = self.supply_df["Hot_Cost"].to_numpy()
-    self.cold_costs_vec = self.supply_df["Cold_Cost"].to_numpy()
-    self.cold_times_vec = self.supply_df["Cold_Periods"].to_numpy()
-    self.shut_costs_vec = (self.supply_df["Shut_Cost"].to_numpy() 
-                               if "Shut_Cost" in self.supply_df.columns else np.zeros(self.n_units))
+        self.ramp_dn_vec = self.supply_df["RampDown"].to_numpy() 
+        self.ramp_up_vec = self.supply_df["RampUp"].to_numpy()  
+    self.dn_times_vec = self.supply_df["DownTime"].to_numpy()
+    self.up_times_vec = self.supply_df["UpTime"].to_numpy()
+    self.durations_vec = self.supply_df["InitialDuration"].to_numpy()
+    self.hot_costs_vec = self.supply_df["HotCost"].to_numpy()
+    self.cold_costs_vec = self.supply_df["ColdCost"].to_numpy()
+    self.cold_times_vec = self.supply_df["ColdPeriods"].to_numpy()
+    self.shut_costs_vec = (self.supply_df["ShutCost"].to_numpy() 
+                               if "ShutCost" in self.supply_df.columns 
+                               else np.zeros(self.n_units))
     self.ac_vec = self.supply_df["aCost"].to_numpy()
     self.bc_vec = self.supply_df["bCost"].to_numpy()
     self.cc_vec = self.supply_df["cCost"].to_numpy()
@@ -94,10 +108,12 @@ class SimEnv:
         if self.VPE == "yes":
             self.de_vec = self.supply_df["dEmis"].to_numpy()
             self.ee_vec = self.supply_df["eEmis"].to_numpy()
-        self.start_emiss_vec = (self.supply_df["Start_Emis"].to_numpy() 
-                                 if "Start_Emis" in self.supply_df.columns else np.zeros(self.n_units))
-        self.shut_emiss_vec = (self.supply_df["Shut_Emis"].to_numpy() 
-                                 if "Shut_Emis" in self.supply_df.columns else np.zeros(self.n_units))
+        self.start_emiss_vec = (self.supply_df["StartEmis"].to_numpy() 
+                                 if "StartEmis" in self.supply_df.columns 
+                                 else np.zeros(self.n_units))
+        self.shut_emiss_vec = (self.supply_df["ShutEmis"].to_numpy() 
+                                 if "ShutEmis" in self.supply_df.columns 
+                                 else np.zeros(self.n_units))
         self.w_emis = self.w[1]
  
     elif self.n_objs == "tri":
@@ -107,10 +123,12 @@ class SimEnv:
         if self.VPE == "yes":
             self.demis1_vec = self.supply_df["dEmis1"].to_numpy()
             self.eemis1_vec = self.supply_df["eEmis1"].to_numpy()
-        self.start_emis1s_vec = (self.supply_df["Start_Emis1"].to_numpy()
-                              if "Start_Emis1" in self.supply_df.columns else np.zeros(self.n_units))
-        self.shut_emis1s_vec = (self.supply_df["Shut_Emis1"].to_numpy() 
-                             if "Shut_Emis1" in self.supply_df.columns else np.zeros(self.n_units))
+        self.start_emis1s_vec = (self.supply_df["StartEmis1"].to_numpy()
+                              if "StartEmis1" in self.supply_df.columns 
+                              else np.zeros(self.n_units))
+        self.shut_emis1s_vec = (self.supply_df["ShutEmis1"].to_numpy() 
+                             if "ShutEmis1" in self.supply_df.columns 
+                             else np.zeros(self.n_units))
 
         self.aemis2_vec = self.supply_df["aEmis2"].to_numpy()
         self.bemis2_vec = self.supply_df["bEmis2"].to_numpy()
@@ -118,10 +136,12 @@ class SimEnv:
         if self.VPE == "yes":
             self.demis2_vec = self.supply_df["dEmis2"].to_numpy()
             self.eemis2_vec = self.supply_df["eEmis2"].to_numpy()
-        self.start_emis2s_vec = (self.supply_df["Start_Emis2"].to_numpy()
-                               if "Start_Emis2" in self.supply_df.columns else np.zeros(self.n_units))
-        self.shut_emis2s_vec = (self.supply_df["Shut_Emis2"].to_numpy()
-                              if "Shut_Emis2" in self.supply_df.columns else np.zeros(self.n_units))
+        self.start_emis2s_vec = (self.supply_df["StartEmis2"].to_numpy()
+                               if "StartEmis2" in self.supply_df.columns 
+                               else np.zeros(self.n_units))
+        self.shut_emis2s_vec = (self.supply_df["ShutEmis2"].to_numpy()
+                              if "ShutEmis2" in self.supply_df.columns 
+                              else np.zeros(self.n_units))
         self.w_emis1 = self.w[1]
         self.w_emis2 = self.w[2]
         
@@ -383,7 +403,7 @@ class SimEnv:
         self.ON_priority_idx_vec = self.ON_priorities_vec.argsort()
         
   def identify_must_ON_and_must_OFF_units(self): 
-    initial_durations_vec = self.supply_df["Initial_Duration"].to_numpy()
+    initial_durations_vec = self.supply_df["InitialDuration"].to_numpy()
     initial_OFF_times_vec = np.where(initial_durations_vec < 0, np.abs(initial_durations_vec), 0)
     self.must_OFF_vec = np.logical_and(-self.dn_times_vec < self.durations_vec, self.durations_vec < 0)
     initial_ON_times_vec = np.where(initial_durations_vec > 0, initial_durations_vec, 0)
@@ -712,8 +732,8 @@ class SimEnv:
 
 
   def _update_production_capacities(self, action_vec: np.ndarray):  
-    p_min_vec = self.supply_df["P_min"].to_numpy()
-    p_max_vec = self.supply_df["P_max"].to_numpy() 
+    p_min_vec = self.supply_df["MinCap"].to_numpy()
+    p_max_vec = self.supply_df["MaxCap"].to_numpy() 
     self.p_min_vec = np.maximum(p_min_vec, self.commits_vec * action_vec * (self.loads_vec - self.ramp_dn_vec))
     self.p_max_vec = np.minimum(p_max_vec, self.commits_vec * action_vec * (self.loads_vec + self.ramp_up_vec) +
                                 np.where((self.commits_vec * action_vec) == 0, 1, 0) * p_max_vec)   
@@ -734,9 +754,9 @@ class SimEnv:
 
 
   def reset(self):
-    self.p_min_vec = self.supply_df["P_min"].to_numpy()
-    self.p_max_vec = self.supply_df["P_max"].to_numpy()
-    self.durations_vec = self.supply_df["Initial_Duration"].to_numpy()
+    self.p_min_vec = self.supply_df["MinCap"].to_numpy()
+    self.p_max_vec = self.supply_df["MaxCap"].to_numpy()
+    self.durations_vec = self.supply_df["InitialDuration"].to_numpy()
     self.commits_vec = np.where(self.durations_vec > 0, 1, 0)
     self.timestep = 0
     self.incomplete_episode = False
