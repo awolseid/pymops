@@ -45,8 +45,8 @@ class SimEnv:
                 raise Exception('Input for n_objs must be "bi" for bijective or "tri" for trijective.')
     if n_objs.lower() == "bi":
         if w is None: w = [1, 0]
-        elif type(w) != float: 
-            raise TypeError("Weight w for a bijective must be a scalar.")
+        elif type(w) not in [float, int]: 
+            raise TypeError("Weight w for a bijective must be a number.")
         elif type(float(w)) != float: 
             raise TypeError("Weight w for a bijective must be float.")
         elif (w < 0 or w > 1): 
@@ -175,7 +175,6 @@ class SimEnv:
         else: 
             print(f"TRI OBJECTIVES (Cost, emis1 and emis2): w = {self.w}, RR = {self.RR}, VPE = {self.VPE}, SR = {self.SR}")
 
-                
   def startup_costs_and_emissions_if_ON(self):  
     OFF_times_vec = np.abs(np.minimum(self.durations_vec, 0))
     cold_OFF_times_vec = self.dn_times_vec + self.cold_times_vec
@@ -187,7 +186,6 @@ class SimEnv:
     elif self.n_objs == "tri":
         self.start_emis1s_vec *= np.where(OFF_times_vec > 0, 1, 0)
         self.start_emis2s_vec *= np.where(OFF_times_vec > 0, 1, 0)        
-
         
   def shutdown_costs_and_emissions_if_OFF(self):  
     ON_times_vec = np.maximum(self.durations_vec, 0)
@@ -235,9 +233,8 @@ class SimEnv:
     else:
         prod_emis2_funs_vec = (
             self.aemis2_vec * loads_vec**2 + self.bemis2_vec * loads_vec + self.cemis2_vec) if self.n_objs == "tri" else None         
-    
+
     return np.where(loads_vec > 0, 1, 0) * cost_to_emis2_factors_vec * prod_emis2_funs_vec
-    
 
   def summarize_marginal_functions(self):
     # The cost, emis1 and emis2 functions are all upward functions for all units.
@@ -408,18 +405,6 @@ class SimEnv:
     self.must_OFF_vec = np.logical_and(-self.dn_times_vec < self.durations_vec, self.durations_vec < 0)
     initial_ON_times_vec = np.where(initial_durations_vec > 0, initial_durations_vec, 0)
     self.must_ON_vec = np.logical_and(0 < self.durations_vec, self.durations_vec < self.up_times_vec)
-    if np.any(self.commits_vec): # future demand satisfaction
-        prev_ON_idx_vec = np.where(self.commits_vec == 1)[0]
-        priority_idx_vec = np.array([i for i in self.ON_priority_idx_vec if i in prev_ON_idx_vec])
-        demands_sr_vec = (1 + self.SR) * self.demands_vec
-        for idx in priority_idx_vec:
-            max_timestep = min(self.timestep + self.dn_times_vec[idx], self.n_timesteps)
-            for timestep in range(self.timestep, max_timestep):
-                act_vec = np.ones(self.n_units)
-                act_vec[idx] = 0
-                if np.sum(act_vec * self.p_max_vec) < demands_sr_vec[timestep]:
-                    self.must_ON_vec[idx] = True
-                    break
 
   def step(self, action_vec: np.ndarray):
     if not (isinstance(action_vec, list) or isinstance(np.array(action_vec), np.ndarray)):
@@ -486,6 +471,7 @@ class SimEnv:
   def ensure_action_legitimacy(self, demand: float, action_vec: np.ndarray):  
     if self._is_action_illegal(action_vec): 
         action_vec = self._legalize_action(action_vec) 
+    action_vec = self._check_for_future_demands(action_vec)
     if np.sum(action_vec * self.p_max_vec) < demand: 
         action_vec = self._adjust_low_capacity(demand, action_vec)
     elif np.sum(action_vec * self.p_min_vec) > demand: 
@@ -503,6 +489,21 @@ class SimEnv:
                           * np.logical_not(self.must_OFF_vec), dtype = int) 
     return action_vec
 
+  def _check_for_future_demands(self, action_vec: np.ndarray): 
+        commits_vec = np.logical_and(np.logical_not(self.must_OFF_vec),
+                                     np.logical_and(np.logical_not(self.must_ON_vec),
+                                                    self.commits_vec == 1)) * 1
+        if np.any(commits_vec): 
+            prev_ON_idx_vec = np.where(commits_vec == 1)[0]
+            priority_idx_vec = np.array([i for i in self.ON_priority_idx_vec if i in prev_ON_idx_vec])
+            demands_sr_vec = (1 + self.SR) * self.demands_vec
+            for idx in priority_idx_vec:
+                max_timestep = min(self.timestep + self.dn_times_vec[idx], self.n_timesteps)
+                max_cap = np.sum(action_vec * self.p_max_vec)
+                if np.any(max_cap < demands_sr_vec[self.timestep: max_timestep - 1]):
+                    action_vec[idx] = 1
+        return action_vec
+
   def _adjust_low_capacity(self, demand: float, action_vec: np.ndarray):
     low_action_vec = action_vec.copy()
     already_OFF_idx_vec = np.where(action_vec == 0)[0]
@@ -516,12 +517,6 @@ class SimEnv:
             remaining_supply = remaining_supply - self.p_max_vec[idx]
             if remaining_supply <= 0.0001:
                 break
-#                 max_timestep = min(self.timestep + self.dn_times_vec[idx], self.n_timesteps)
-#                 for timestep in range(self.timestep, max_timestep):
-#                     demands_sr_vec = (1 + self.SR) * self.demands_vec
-#                     if np.sum(action_vec * self.p_max_vec) < demands_sr_vec[timestep]:
-#                         action_vec[idx] = 1
-#                         break
     return action_vec
 
   def _adjust_excess_capacity(self, demand: float, action_vec: np.ndarray):
